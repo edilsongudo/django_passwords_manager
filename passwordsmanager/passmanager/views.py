@@ -1,16 +1,33 @@
 from django.shortcuts import render, redirect
+from django.http import FileResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from .models import *
-from .password_logic import *
+from .utils import *
+from .utilsExtra import *
 import hashlib
+import json
+
+@login_required
+def home(request):
+
+    if request.user.masterpassword.master == '':
+        return redirect('master')
+
+    if request.is_ajax():
+
+        request_json = json.loads(request.body.decode('utf-8'))
+        masterpass = request_json['masterpass']
+        is_masterpass_correct = check_if_master_password_is_correct(request, masterpass)
+
+        return JsonResponse({'is_masterpass_correct': is_masterpass_correct})
+
+    return render(request, 'passmanager/index.html')
 
 
 @login_required
 def create(request):
-    if request.user.masterpassword.master == '':
-        return redirect('master')
 
     if request.method == 'POST':
         form = EntryForm(request.POST)
@@ -102,7 +119,7 @@ def master(request):
 
             messages.success(
                 request, f'Your Master Password was successfully edited.')
-            return redirect('entry-create')
+            return redirect('home')
         else:
             return render(request, 'passmanager/master.html', {'form': form})
 
@@ -141,9 +158,6 @@ def showpasswords(request):
     form = MasterForm()
     return render(request, 'passmanager/master.html', {'form': form})
 
-def home(request):
-    return render(request, 'passmanager/index.html')
-
 
 def delete(request, pk):
     entry = Entry.objects.get(pk=pk)
@@ -152,3 +166,16 @@ def delete(request, pk):
         print('Deleted')
         return redirect('mypasswords')
     return render(request, 'passmanager/delete.html', {'entry': entry})
+
+def edit(request, pk):
+    entry = Entry.objects.get(pk=pk)
+    form = EntryForm(instance=entry)
+    if request.method == 'POST':
+        form = EntryForm(request.POST, instance=entry)
+        pass
+        # entry.site_name =
+        # entry.site_email_used =
+        # entry.site_password_used =
+        # entry.save()
+        return redirect('mypasswords')
+    return render(request, 'passmanager/edit.html', {'form': form})

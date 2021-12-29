@@ -25,7 +25,8 @@ SECRET_KEY = 'd+om$3wilfupxh6oz8#atw-0i(y7iec%7_)7fgr-d!sc9q4_+e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1', '192.168.43.143']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1',
+                 '192.168.43.143', 'cristiangrey.pythonanywhere.com']
 
 
 # Application definition
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'passwordsmanager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,11 +123,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+    SITE_ID = 1
+
+else:
+    pass
+    # STATIC_ROOT = '/home/cristiangrey/django_passwords_manager/passwordsmanager/passmanager/static'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = 'posts-home'
+LOGIN_REDIRECT_URL = 'passwords-home'
 LOGIN_URL = 'login'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

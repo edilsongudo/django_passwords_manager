@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="{% static 'passmanager/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'passmanager/index.css' %}">
+</head>
+<body>
+    <div id="app">
+        <router-view></router-view>
+    </div>
+    <script type="text/javascript" src="{% static 'passmanager/getcsrf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/vue.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/vue-router.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/components/home.vue.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/components/new.vue.js' %}"></script>
+
+    <script type="text/javascript">
+        const routes = [
+            {
+                path: '/',
+                component: home,
+            },
+        ]
+
+        const router = new VueRouter ({
+            routes,
+            // mode: 'history' //hash
+        })
+
+        const app = new Vue({
+            el: '#app',
+            router,
+        })
+    </script>
+</body>
+</html>

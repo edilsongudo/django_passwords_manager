@@ -21,6 +21,14 @@ class MasterPasswordForm(forms.ModelForm):
         model = MasterPassword
         fields = ['last_master', 'master', 'master_confirm']
 
+class MasterCreateForm(forms.ModelForm):
+
+    master_confirm = forms.CharField(label='Master Password Confirm')
+
+    class Meta:
+        model = MasterPassword
+        fields = ['master', 'master_confirm']
+
 
 class MasterForm(forms.Form):
     key = forms.CharField(label='Master password')
