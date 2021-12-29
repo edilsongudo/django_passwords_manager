@@ -26,42 +26,37 @@ def home(request):
     return render(request, 'passmanager/index.html')
 
 
+
 @login_required
-def create(request):
+def new(request):
+    if request.is_ajax():
+        request_json = json.loads(request.body.decode('utf-8'))
 
-    if request.method == 'POST':
-        form = EntryForm(request.POST)
-        if form.is_valid():
-            key = form.cleaned_data['key']
-            key = generate_key(key)
+        site_name = request_json['entrysite']
+        email_used = request_json['entryemail']
+        password = request_json['entrypassword']
+        masterpassword = request_json['masterpassword']
 
-            crypt = hashlib.sha256()
-            crypt.update(key.encode())
-            key = crypt.hexdigest()
-            print(key)
-            print(request.user.masterpassword.master)
+        key = generate_key(masterpassword)
+        encrypted_password = encrypt(message=password, key=key)
 
-            if key[0:3] == request.user.masterpassword.master:
+        Entry.objects.create(
+            author=request.user,
+            site_name=site_name,
+            site_email_used=email_used,
+            site_password_used=encrypted_password
+        )
 
-                site_password_used = form.cleaned_data['site_password_used']
-                key = generate_key(form.cleaned_data['key'])
-                site_password = encrypt(message=site_password_used, key=key)
-                print('site password ->', site_password)
+        response = {
+            'status': 'ok',
+            'author_username': request.user.username,
+            'site': site_name,
+            'email_used': email_used,
+            'encrypted_password': encrypted_password
+        }
 
-                entry = Entry.objects.create(author=request.user, site_name=form.cleaned_data['site_name'],
-                                             site_email_used=form.cleaned_data['site_email_used'], site_password_used=site_password)
+        return JsonResponse(response)
 
-                # form.save()
-                entry.save()
-                messages.success(
-                    request, f'A new entry was successfully added.')
-                return redirect('entry-create')
-            else:
-                messages.warning(request, f'Your master passeword is wrong.')
-                form = EntryForm(request.POST)
-                return render(request, 'passmanager/create.html', {'form': form})
-    form = EntryForm()
-    return render(request, 'passmanager/create.html', {'form': form})
 
 
 @login_required
