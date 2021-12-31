@@ -2,6 +2,15 @@ import hashlib
 from .utils import *
 
 
+def hash_and_return_first_3_chars(value):
+
+    crypt = hashlib.sha256()
+    crypt.update(value.encode())
+    value = crypt.hexdigest()
+
+    return value[0:3]
+
+
 def check_if_master_password_is_correct(request, masterPassGiven):
     """
         CHECKS if the first 3 chars of the hashed version of the master password

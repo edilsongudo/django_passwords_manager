@@ -1,24 +1,61 @@
-body {
-  background: lightblue;
-  font-family: sans-serif;
-  color: white;
-  text-align: center;
+:root {
+  --bgcolor1: #eec4c4;
+  --bgcolor2: #eec4c4;
+  --bodytext: #fff;
+  --buttonbg: #f29191;
+  --buttontext: #fff;
 }
 
-form, .alert {
-  max-width: 400px;
-  margin: 10px auto;
+@font-face {
+    font-family: 'CeraProMedium';
+    src: url('fonts/CeraProMedium.woff2')
+}
+
+body {
+  background: linear-gradient(90deg, var(--bgcolor1), var(--bgcolor2));
+  color: var(--bodytext);
+  font-family: 'CeraProMedium', sans-serif;
+}
+
+.l {
 }
 
 .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
+
+.quick-action {
+  text-align: right;
+}
+
+form, .alert,  {
+  margin: 10px auto;
+}
+
+.entriescontainer {
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.entrycontainer {
+  background: rgba(255, 255, 255, 0.7);
+  text-align: left;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px auto;
+  color: #000;
+}
+
 
 input[type=text], input[type=url], input[type=email], input[type=password], input[type=search], input[type=tel], input[type=number] {
   background: rgba(255, 255, 255, 0.85);
   border-radius: 10px;
   padding: 25px;
   border: 3px solid rgba(213, 221, 236, 0.4);
-  box-shadow: rgba(213, 221, 236, 0.4) 20px 20px 20px 20px;
+  /*box-shadow: rgba(213, 221, 236, 0.4) 5px 5px 5px 5px;*/
 }
 
 .cta {
@@ -35,14 +72,15 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
 }
 
 .cta1 {
-  border: solid 2px rgb(48, 112, 212);
-  color: white;
-  background: rgb(48, 112, 212);
+  border: solid 2px var(--buttonbg);
+  color: var(--buttontext);
+  background: var(--buttonbg);
 }
 
 .cta1:hover {
+  border: solid 2px var(--bodytext);
   background:  transparent;
   transition: 0.3s;
   text-decoration: none;
-  color: rgb(48, 112, 212);
+  color: var(--bodytext);
 }

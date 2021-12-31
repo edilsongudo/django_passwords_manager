@@ -8,11 +8,10 @@ from django.conf import settings
 urlpatterns = [
     # Views already touyched in the refactor proccess
     path('', views.home, name='home'),
-    path('new/', views.new, name='entry-new'),
+    path('new/', views.new, name='new'),
     path('master/', views.master, name='master'),
+    path('new_master/', views.new_master, name='new_master'),
 
-    # Views to touch/delete or use as inspiration to refactor
-    path('mypasswords/', views.showpasswords, name='mypasswords'),
-    path('entry/<int:pk>/delete/', views.delete, name='entry-delete'),
-    path('entry/<int:pk>/edit/', views.edit, name='entry-edit'),
+    # path('entry/<int:pk>/delete/', views.delete, name='entry-delete'),
+    # path('entry/<int:pk>/edit/', views.edit, name='entry-edit'),
 ]
