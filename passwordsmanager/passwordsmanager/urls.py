@@ -10,3 +10,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
 ]
+
+handler404 = 'passmanager.views.error_404_view'
+handler403 = 'passmanager.views.error_403_view'
+handler500 = 'passmanager.views.error_500_view'

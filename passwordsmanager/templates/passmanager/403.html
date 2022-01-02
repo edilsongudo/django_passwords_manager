@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+   <head>
+      {% include 'leadfy/google_analytics.html' %}
+      <meta charset="utf-8">
+      <title>403 Error Page</title>
+      <link rel="stylesheet" href="{% static 'leadfy/css/404.css' %}">
+   </head>
+   <body>
+      <div id="error-page">
+         <div class="content">
+            <h2 class="header" data-text="403">
+               403
+            </h2>
+            <h4 data-text="Opps! Page not found">
+               Opps! Forbidden
+            </h4>
+            <p>
+               Sorry, you don't have the permission to access this page.
+            </p>
+            <div class="btns">
+               <a href="{% url 'home' %}">return home</a>
+               <!-- <a href="https://www.codingnepalweb.com/">report problem</a> -->
+            </div>
+         </div>
+      </div>
+   </body>
+</html>

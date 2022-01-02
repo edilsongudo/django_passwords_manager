@@ -204,5 +204,6 @@ var home = {
     },
 
     created() {
+        console.log('created')
     }
 }
