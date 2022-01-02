@@ -31,6 +31,10 @@ body {
   text-align: right;
 }
 
+.alert {
+  max-width: 350px;
+}
+
 form, .alert,  {
   margin: 10px auto;
 }

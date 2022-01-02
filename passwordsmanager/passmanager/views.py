@@ -15,7 +15,7 @@ import secrets
 @login_required
 def home(request):
 
-    if request.user.masterpassword.master == '':
+    if not request.user.masterpassword.has_defined_a_master_password:
         return redirect('new_master')
 
     if request.is_ajax():
@@ -30,6 +30,10 @@ def home(request):
 
         for entry in entries:
             try:
+                entry_email = decrypt(
+                    encrypted=entry.site_email_used.encode(),
+                    key=key.encode())
+
                 entry_password = decrypt(
                     encrypted=entry.site_password_used.encode(),
                     key=key.encode())
@@ -37,7 +41,7 @@ def home(request):
                 if not entry.is_generated_for_initial_master_pw_check:
                     response.append({
                         'site': entry.site_name,
-                        'email': entry.site_email_used,
+                        'email': entry_email,
                         'encrypted_password': entry.site_password_used,
                         'decrypted_password': entry_password,
                     })
@@ -61,12 +65,13 @@ def new(request):
         masterpassword = request_json['masterpassword']
 
         key = generate_key(masterpassword)
+        encrypted_email = encrypt(message=email_used, key=key)
         encrypted_password = encrypt(message=password, key=key)
 
         Entry.objects.create(
             author=request.user,
             site_name=site_name,
-            site_email_used=email_used,
+            site_email_used=encrypted_email,
             site_password_used=encrypted_password
         )
 
@@ -84,7 +89,7 @@ def new(request):
 @login_required
 def new_master(request):
 
-    if request.user.masterpassword.master != "":
+    if request.user.masterpassword.has_defined_a_master_password:
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -99,14 +104,10 @@ def new_master(request):
             messages.warning(request, 'Fields Master Password and master password confirm do not match')
             return render(request, 'passmanager/master.html', {'form': form})
 
-        obj = form.save(commit=False)
         master_key = generate_key(master)
-        password = hash_and_return_first_3_chars(master_key)
-        obj.master = password
-        obj.save()
-
+        print(master)
         site_name = secrets.token_urlsafe()
-        email_used = secrets.token_urlsafe()
+        email_used = encrypt(message=secrets.token_urlsafe(), key=master_key)
         encrypted_password = encrypt(message=secrets.token_urlsafe(), key=master_key)
 
         entries = Entry.objects.create(
@@ -116,6 +117,9 @@ def new_master(request):
             site_password_used=encrypted_password,
             is_generated_for_initial_master_pw_check=True,
             )
+
+        request.user.masterpassword.has_defined_a_master_password = True
+        request.user.masterpassword.save()
 
         return redirect('home')
 
@@ -141,6 +145,7 @@ def master(request):
                 return render(request, 'passmanager/master.html', {'form': form})
 
             last_master = form.cleaned_data['last_master']
+            print(last_master)
             last_key = generate_key(last_master)
             new_key = generate_key(key)
 
@@ -148,18 +153,29 @@ def master(request):
 
             try:
                 for entry in entries:
-                    entry.site_password_used = decrypt(
+
+                    site_email_used = decrypt(
+                        encrypted=entry.site_email_used.encode(),
+                        key=last_key.encode()
+                        )
+                    entry.site_email_used = encrypt(
+                        message=site_email_used,
+                        key=new_key.encode()
+                        )
+
+                    site_password_used = decrypt(
                         encrypted=entry.site_password_used.encode(),
                         key=last_key.encode()
                         )
                     entry.site_password_used = encrypt(
-                        message=entry.site_password_used,
+                        message=site_password_used,
                         key=new_key.encode()
                         )
                     entry.save()
-                    messages.success(
-                        request, f'Your Master Password was successfully edited.')
-                    return redirect('home')
+
+                messages.success(
+                    request, f'Your Master Password was successfully edited.')
+                return redirect('home')
             except InvalidToken:
                 messages.warning(request, 'The last master password you typed is wrong')
                 return render(request, 'passmanager/master.html', {'form': form})

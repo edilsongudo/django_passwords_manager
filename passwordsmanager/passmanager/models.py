@@ -20,7 +20,8 @@ class Entry(models.Model):
 class MasterPassword(models.Model):
     author = models.OneToOneField(
         User, on_delete=models.CASCADE)
-    master = models.CharField(max_length=100, blank=True, default='')
+    has_defined_a_master_password = models.BooleanField(
+        default=False)
 
     def __str__(self):
         return f'{self.author.username} hashed Master Password'

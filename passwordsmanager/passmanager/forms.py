@@ -13,6 +13,7 @@ class EntryForm(forms.ModelForm):
 
 class MasterPasswordForm(forms.ModelForm):
 
+    master = forms.CharField(label='New Master Password')
     last_master = forms.CharField(
         label='Last Master Password', required=False)
     master_confirm = forms.CharField(label='Master Password Confirm')
@@ -23,6 +24,7 @@ class MasterPasswordForm(forms.ModelForm):
 
 class MasterCreateForm(forms.ModelForm):
 
+    master = forms.CharField(label='New Master Password')
     master_confirm = forms.CharField(label='Master Password Confirm')
 
     class Meta:
