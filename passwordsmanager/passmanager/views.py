@@ -2,12 +2,11 @@ from django.shortcuts import render, redirect
 from django.http import FileResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from .forms import *
 from .models import *
 from .utils import *
-from .utilsExtra import *
 from cryptography.fernet import InvalidToken
-import hashlib
 import json
 import secrets
 
@@ -22,8 +21,10 @@ def home(request):
 
         request_json = json.loads(request.body.decode('utf-8'))
         masterpassword = request_json['masterpassword']
-        # is_masterpass_correct = check_if_master_password_is_correct(request, masterpassword)
-        key = generate_key(masterpassword)
+        key = generate_key(
+            masterpassword,
+            request.user.masterpassword.salt
+            )
 
         response = []
         entries = Entry.objects.filter(author=request.user)
@@ -64,7 +65,10 @@ def new(request):
         password = request_json['entrypassword']
         masterpassword = request_json['masterpassword']
 
-        key = generate_key(masterpassword)
+        key = generate_key(
+            masterpassword,
+            request.user.masterpassword.salt
+            )
         encrypted_email = encrypt(message=email_used, key=key)
         encrypted_password = encrypt(message=password, key=key)
 
@@ -93,35 +97,38 @@ def new_master(request):
         raise PermissionDenied()
 
     if request.method == 'POST':
-        form = MasterCreateForm(
-            request.POST,
-            instance=request.user.masterpassword)
+        form = MasterCreateForm(request.POST, user=request.user)
 
-        master = request.POST['master']
-        master_confirm = request.POST['master_confirm']
+        if form.is_valid():
 
-        if master != master_confirm:
-            messages.warning(request, 'Fields Master Password and master password confirm do not match')
-            return render(request, 'passmanager/master.html', {'form': form})
+            master = form.cleaned_data['master']
+            master_confirm = form.cleaned_data['master_confirm']
 
-        master_key = generate_key(master)
-        print(master)
-        site_name = secrets.token_urlsafe()
-        email_used = encrypt(message=secrets.token_urlsafe(), key=master_key)
-        encrypted_password = encrypt(message=secrets.token_urlsafe(), key=master_key)
+            master_key = generate_key(
+                master,
+                request.user.masterpassword.salt
+                )
+            print(master)
+            site_name = secrets.token_urlsafe()
+            email_used = encrypt(message=secrets.token_urlsafe(), key=master_key)
+            encrypted_password = encrypt(message=secrets.token_urlsafe(), key=master_key)
 
-        entries = Entry.objects.create(
-            author=request.user,
-            site_name=site_name,
-            site_email_used=email_used,
-            site_password_used=encrypted_password,
-            is_generated_for_initial_master_pw_check=True,
-            )
+            entries = Entry.objects.create(
+                author=request.user,
+                site_name=site_name,
+                site_email_used=email_used,
+                site_password_used=encrypted_password,
+                is_generated_for_initial_master_pw_check=True,
+                )
 
-        request.user.masterpassword.has_defined_a_master_password = True
-        request.user.masterpassword.save()
+            request.user.masterpassword.has_defined_a_master_password = True
+            request.user.masterpassword.save()
 
-        return redirect('home')
+            return redirect('home')
+
+        else:
+            return render(request, 'passmanager/new_master.html', {'form': form})
+
 
     form = MasterCreateForm()
     return render(request, 'passmanager/new_master.html', {'form': form})
@@ -129,25 +136,29 @@ def new_master(request):
 
 @login_required
 def master(request):
+    if not request.user.masterpassword.has_defined_a_master_password:
+        raise PermissionDenied()
+
     form = MasterPasswordForm()
 
     if request.method == 'POST':
-        form = MasterPasswordForm(
-            request.POST, instance=request.user.masterpassword)
+        form = MasterPasswordForm(request.POST, user=request.user)
 
         if form.is_valid():
 
             key = form.cleaned_data['master']
             key_confirm = form.cleaned_data['master_confirm']
 
-            if key != key_confirm:
-                messages.warning(request, 'Fields "Master Password" and Master Password Confirm" must be equal')
-                return render(request, 'passmanager/master.html', {'form': form})
-
             last_master = form.cleaned_data['last_master']
             print(last_master)
-            last_key = generate_key(last_master)
-            new_key = generate_key(key)
+            last_key = generate_key(
+                last_master,
+                request.user.masterpassword.salt
+                )
+            new_key = generate_key(
+                key,
+                request.user.masterpassword.salt
+                )
 
             entries = Entry.objects.filter(author=request.user)
 
@@ -179,6 +190,10 @@ def master(request):
             except InvalidToken:
                 messages.warning(request, 'The last master password you typed is wrong')
                 return render(request, 'passmanager/master.html', {'form': form})
+
+        else:
+            return render(request, 'passmanager/master.html', {'form': form})
+
 
     return render(request, 'passmanager/master.html', {'form': form})
 

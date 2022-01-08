@@ -1,12 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
-
-# Create your models here.
+from django.contrib.auth import get_user_model
+import os
 
 
 class Entry(models.Model):
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE)
+        get_user_model(), on_delete=models.CASCADE)
     site_name = models.CharField(max_length=100, default='')
     site_email_used = models.EmailField(max_length=100, blank=True, default='')
     site_password_used = models.CharField(max_length=100, default='')
@@ -14,14 +13,15 @@ class Entry(models.Model):
         default=False)
 
     def __str__(self):
-        return f'{self.author.username} Entry {self.pk}'
+        return f'{self.author.username} {self.site_name}'
 
 
 class MasterPassword(models.Model):
     author = models.OneToOneField(
-        User, on_delete=models.CASCADE)
+        get_user_model(), on_delete=models.CASCADE)
+    salt = models.BinaryField(default=os.urandom(32))
     has_defined_a_master_password = models.BooleanField(
         default=False)
 
     def __str__(self):
-        return f'{self.author.username} hashed Master Password'
+        return f'{self.author.username}'

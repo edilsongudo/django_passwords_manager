@@ -11,6 +11,13 @@
 </head>
 <body>
     <div id="app">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
         <router-view></router-view>
     </div>
     <script type="text/javascript" src="{% static 'passmanager/getcsrf.js' %}"></script>

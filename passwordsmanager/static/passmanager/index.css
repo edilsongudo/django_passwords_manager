@@ -1,9 +1,9 @@
 :root {
-  --bgcolor1: #eec4c4;
-  --bgcolor2: #eec4c4;
+  --bgcolor1: #EDD2BC;
+  --bgcolor2: #EDD2BC;
   --bodytext: #fff;
-  --buttonbg: #f29191;
-  --buttontext: #fff;
+  --buttonbg: #fff;
+  --buttontext: grey;
 }
 
 @font-face {
@@ -15,6 +15,10 @@ body {
   background: linear-gradient(90deg, var(--bgcolor1), var(--bgcolor2));
   color: var(--bodytext);
   font-family: 'CeraProMedium', sans-serif;
+}
+
+label {
+  display: none;
 }
 
 .l {
@@ -59,6 +63,7 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
   border-radius: 10px;
   padding: 25px;
   border: 3px solid rgba(213, 221, 236, 0.4);
+  margin-bottom: 10px;
   /*box-shadow: rgba(213, 221, 236, 0.4) 5px 5px 5px 5px;*/
 }
 
@@ -66,11 +71,12 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
   margin: 0;
   padding: 0;
   display: inline-block;
-  border-radius: 10px;
-  padding-right: 50px;
-  padding-left: 50px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  border-radius: 50px;
+  /*padding-right: 50px;
+  padding-left: 50px;*/
+  width: 300px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   margin-bottom: 60px;
   cursor: pointer;
 }
@@ -82,7 +88,7 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
 }
 
 .cta1:hover {
-  border: solid 2px var(--bodytext);
+  border: solid 2px var(--buttonbg);
   background:  transparent;
   transition: 0.3s;
   text-decoration: none;

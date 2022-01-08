@@ -5,10 +5,8 @@ from cryptography.fernet import Fernet
 import secrets
 
 
-def generate_key(password_provided):
+def generate_key(password_provided, salt):
     password = password_provided.encode()
-    # os.urandom(32)
-    salt = b'\xf8\x10P\xc3\xe0\xaa\x08\x8cF\x81\xb6\xdf\x1fw6RA\rn%\xbf\xd6~\x9a\xbetA\xf0yMYj'
     kdf = Scrypt(
         salt=salt,
         length=32,

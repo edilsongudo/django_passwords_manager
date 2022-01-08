@@ -11,18 +11,18 @@ var home = {
 
                 <form v-if="authenticated && !show_list" v-html>
                     <div class="quick-action"><button @click="listentries" class="cta cta1"><i class="fas fa-list"></i> list</button></div>
-                    <h4>New Entry</h4>
+                    <h3>New Entry</h3>
                     <div class="form-group">
                         <div><label for="masterpassword">Site</label></div>
-                        <input id="entrysite" v-model="entrysite" class="textinput textInput form-control" type="text" name="site" value="" autocomplete="off">
+                        <input placeholder="Site" id="entrysite" v-model="entrysite" class="textinput textInput form-control" type="text" name="site" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <div><label for="masterpassword">Email or Username</label></div>
-                        <input id="entryemail" v-model="entryemail" class="textinput textInput form-control" type="text" name="email" value="" autocomplete="off">
+                        <input placeholder="Email" id="entryemail" v-model="entryemail" class="textinput textInput form-control" type="text" name="email" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <div><label for="masterpassword">Password</label></div>
-                        <input id="entrypassword" v-model="entrypassword" class="textinput textInput form-control" type="text" name="password" value="" autocomplete="off">
+                        <input placeholder="Password" id="entrypassword" v-model="entrypassword" class="textinput textInput form-control" type="text" name="password" value="" autocomplete="off">
                     </div>
                     <div><button class="cta cta1" type="submit" @click=addNewEntry>Save</button></div>
                 </form>
@@ -30,7 +30,7 @@ var home = {
                 <div v-else-if="authenticated && show_list">
                     <form v-html>
                         <div class="quick-action"><button @click="listentries" class="cta cta1"><i class="fas fa-plus"></i> Add</button></div>
-                        <h4>Your Passwords</h4>
+                        <h3>Your Passwords</h3>
                         <div class="entriescontainer">
                             <div class="entrycontainer" v-for="entry in entries">
                                 <div>
@@ -44,11 +44,13 @@ var home = {
                 </div>
 
                 <form v-else v-html>
+                    <!-- <div class="alert alert-info">Your vault can only be decrypted with your master password</div> -->
+                    <h3>Open Vault</h3>
                     <div class="form-group">
                         <div><label for="masterpassword">Master Password</label></div>
-                        <input id="masterpassword" class="textinput textInput form-control" type="text" name="master" value="" autocomplete="off">
+                        <input placeholder="Master Password" autofocus id="masterpassword" class="textinput textInput form-control" type="text" name="master" value="" autocomplete="off">
                     </div>
-                    <div><button class="cta cta1" type="submit" @click=checkMasterPassword>Authenticate</button></div>
+                    <div><button class="cta cta1" type="submit" @click=checkMasterPassword>Open <i class="fas fa-key"></i></button></div>
                 </form>
 
             </div>

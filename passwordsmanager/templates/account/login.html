@@ -1,0 +1,23 @@
+{% extends "account/base.html" %}
+{% load crispy_forms_tags %}
+{% load socialaccount %}
+<div class="register-form">
+{% block content %}
+    <div class="form-section">
+        <form method="POST">
+            <h3>Log In</h3>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="cta cta1" type="submit">Login</button>
+            <!-- <a href="{% provider_login_url 'google' %}">Login with Google</a> -->
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                <a class="button secondaryAction" href="{% url 'account_reset_password' %}">Forgot Password?</a>
+                <br>
+                <a class="button secondaryAction" href="{% url 'account_signup' %}">Need an account?</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}
+</div>
