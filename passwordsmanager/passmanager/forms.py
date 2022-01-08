@@ -14,6 +14,13 @@ from .validators import (
 )
 
 
+class EntryForm(forms.Form):
+    entrysite = forms.CharField(max_length=70)
+    entryemail = forms.CharField(max_length=70)
+    entrypassword = forms.CharField(max_length=70)
+    masterpassword = forms.CharField(max_length=70)
+
+
 class MasterPasswordForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
@@ -60,15 +67,6 @@ class MasterPasswordForm(forms.Form):
         )
     )
 
-    def clean(self):
-        print(self.cleaned_data)
-        password = self.cleaned_data.get('master')
-        password_confirm = self.cleaned_data.get('master_confirm')
-
-        if password != password_confirm:
-            raise ValidationError(
-                'Fields Master Password and master password confirm do not match')
-
     def clean_master(self):
         password = self.cleaned_data.get('master')
         similariy_validator(password, self.user)
@@ -109,15 +107,6 @@ class MasterCreateForm(forms.Form):
         }
         )
     )
-
-    def clean(self):
-        print(self.cleaned_data)
-        password = self.cleaned_data.get('master')
-        password_confirm = self.cleaned_data.get('master_confirm')
-
-        if password != password_confirm:
-            raise ValidationError(
-                'Fields Master Password and master password confirm do not match')
 
     def clean_master(self):
         password = self.cleaned_data.get('master')

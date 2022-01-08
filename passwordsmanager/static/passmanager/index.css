@@ -17,11 +17,20 @@ body {
   font-family: 'CeraProMedium', sans-serif;
 }
 
-label {
-  display: none;
+.quick-action {
+  position: absolute;
+  top: 10px;
+  margin: 0 auto;
 }
 
-.l {
+.alert {
+  margin-top: 40px;
+  max-width: 350px;
+}
+
+
+label {
+  display: none;
 }
 
 .container {
@@ -33,10 +42,6 @@ label {
 
 .quick-action {
   text-align: right;
-}
-
-.alert {
-  max-width: 350px;
 }
 
 form, .alert,  {
@@ -87,10 +92,20 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
   background: var(--buttonbg);
 }
 
-.cta1:hover {
+.cta1:focus {
   border: solid 2px var(--buttonbg);
   background:  transparent;
   transition: 0.3s;
   text-decoration: none;
   color: var(--bodytext);
 }
+
+.shortcut {
+  border-color: transparent;
+  outline: none;
+  color: var(--buttonbg);
+  background: transparent;
+  cursor: pointer;
+  font-size: 3rem;
+}
+

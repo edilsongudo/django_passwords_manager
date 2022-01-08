@@ -3,35 +3,42 @@ var home = {
     `
         <div class="container">
 
-            <div class="l">
+            <div>
 
                 <div v-if="message" :class="message.class">
                     [[ message.message ]]
                 </div>
 
-                <form v-if="authenticated && !show_list" v-html>
-                    <div class="quick-action"><button @click="listentries" class="cta cta1"><i class="fas fa-list"></i> list</button></div>
-                    <h3>New Entry</h3>
-                    <div class="form-group">
-                        <div><label for="masterpassword">Site</label></div>
-                        <input placeholder="Site" id="entrysite" v-model="entrysite" class="textinput textInput form-control" type="text" name="site" value="" autocomplete="off">
+                <div class="quick-action">
+                    <button v-if="authenticated && !show_list" @click="listentries" class="shortcut">
+                        <i class="fas fa-list"></i>
+                    </button>
+                    <button v-if="authenticated && show_list" @click="listentries" class="shortcut">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+
+                <div v-if="authenticated && !show_list">
+                    <div v-html>
+                        <div class="form-group">
+                            <div><label for="masterpassword">Site</label></div>
+                            <input placeholder="Site" id="entrysite" v-model="entrysite" class="textinput textInput form-control" type="text" name="site" value="" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <div><label for="masterpassword">Email or Username</label></div>
+                            <input placeholder="Email" id="entryemail" v-model="entryemail" class="textinput textInput form-control" type="text" name="email" value="" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <div><label for="masterpassword">Password</label></div>
+                            <input placeholder="Password" id="entrypassword" v-model="entrypassword" class="textinput textInput form-control" type="text" name="password" value="" autocomplete="off">
+                        </div>
+                        <div><button class="cta cta1" type="submit" @click=addNewEntry>Add <i class="fas fa-plus"></i></button></div>
                     </div>
-                    <div class="form-group">
-                        <div><label for="masterpassword">Email or Username</label></div>
-                        <input placeholder="Email" id="entryemail" v-model="entryemail" class="textinput textInput form-control" type="text" name="email" value="" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <div><label for="masterpassword">Password</label></div>
-                        <input placeholder="Password" id="entrypassword" v-model="entrypassword" class="textinput textInput form-control" type="text" name="password" value="" autocomplete="off">
-                    </div>
-                    <div><button class="cta cta1" type="submit" @click=addNewEntry>Save</button></div>
-                </form>
+                </div>
 
                 <div v-else-if="authenticated && show_list">
-                    <form v-html>
-                        <div class="quick-action"><button @click="listentries" class="cta cta1"><i class="fas fa-plus"></i> Add</button></div>
-                        <h3>Your Passwords</h3>
-                        <div class="entriescontainer">
+                    <div v-html>
+                        <div class="form-group">
                             <div class="entrycontainer" v-for="entry in entries">
                                 <div>
                                     <div class="entry-site textinput textInput form-control">Site: [[ entry.site ]]</div>
@@ -40,7 +47,7 @@ var home = {
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
 
                 <form v-else v-html>
@@ -117,7 +124,7 @@ var home = {
                 url: path,
                 headers: {'X-CSRFToken': csrfToken},
                 dataType: 'json',
-                data: data,
+                data: obj,
                 type: 'post',
                 success: function(response) {
                     console.log(response)
@@ -143,13 +150,13 @@ var home = {
                 url: path,
                 headers: {'X-CSRFToken': csrfToken},
                 dataType: 'json',
-                data: data,
+                data: obj,
                 type: 'post',
                 success: function(response) {
                     if (response['status'] == 'ok') {
                         state.show_alert(state, {message: "Entry Successfully Created", class: "alert alert-success"}, 3000)
                     } else {
-                        state.show_alert(state, {message: "Ups,a problem ocurred. You entry may not have been saved", class: "alert alert-danger"}, 3000)
+                        state.show_alert(state, {message: response['errors'], class: "alert alert-danger"}, 3000)
                     }
                 }})
         },
@@ -163,7 +170,7 @@ var home = {
                 url: path,
                 headers: {'X-CSRFToken': csrfToken},
                 dataType: 'json',
-                data: data,
+                data: obj,
                 type: 'post',
                 success: function(response) {
                     console.log(response)

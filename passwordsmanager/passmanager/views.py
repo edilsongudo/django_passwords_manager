@@ -18,9 +18,8 @@ def home(request):
         return redirect('new_master')
 
     if request.is_ajax():
+        masterpassword = request.POST['masterpassword']
 
-        request_json = json.loads(request.body.decode('utf-8'))
-        masterpassword = request_json['masterpassword']
         key = generate_key(
             masterpassword,
             request.user.masterpassword.salt
@@ -58,36 +57,39 @@ def home(request):
 @login_required
 def new(request):
     if request.is_ajax():
-        request_json = json.loads(request.body.decode('utf-8'))
 
-        site_name = request_json['entrysite']
-        email_used = request_json['entryemail']
-        password = request_json['entrypassword']
-        masterpassword = request_json['masterpassword']
+        form = EntryForm(request.POST)
+        if form.is_valid():
+            site_name = form.cleaned_data['entrysite']
+            email_used = form.cleaned_data['entryemail']
+            password = form.cleaned_data['entrypassword']
+            masterpassword = form.cleaned_data['masterpassword']
 
-        key = generate_key(
-            masterpassword,
-            request.user.masterpassword.salt
+            key = generate_key(
+                masterpassword,
+                request.user.masterpassword.salt
+                )
+            encrypted_email = encrypt(message=email_used, key=key)
+            encrypted_password = encrypt(message=password, key=key)
+
+            Entry.objects.create(
+                author=request.user,
+                site_name=site_name,
+                site_email_used=encrypted_email,
+                site_password_used=encrypted_password
             )
-        encrypted_email = encrypt(message=email_used, key=key)
-        encrypted_password = encrypt(message=password, key=key)
 
-        Entry.objects.create(
-            author=request.user,
-            site_name=site_name,
-            site_email_used=encrypted_email,
-            site_password_used=encrypted_password
-        )
+            response = {
+                'status': 'ok',
+                'author_username': request.user.username,
+                'site': site_name,
+                'email_used': email_used,
+                'encrypted_password': encrypted_password
+            }
 
-        response = {
-            'status': 'ok',
-            'author_username': request.user.username,
-            'site': site_name,
-            'email_used': email_used,
-            'encrypted_password': encrypted_password
-        }
-
-        return JsonResponse(response)
+            return JsonResponse(response)
+        else:
+            return JsonResponse({'status': 'fail', 'errors': form.errors})
 
 
 @login_required
@@ -103,6 +105,10 @@ def new_master(request):
 
             master = form.cleaned_data['master']
             master_confirm = form.cleaned_data['master_confirm']
+
+            if master != master_confirm:
+                messages.error(request, 'Fields New master and New master confirm do not match')
+                return render(request, 'passmanager/new_master.html', {'form': form})
 
             master_key = generate_key(
                 master,
@@ -149,6 +155,10 @@ def master(request):
             key = form.cleaned_data['master']
             key_confirm = form.cleaned_data['master_confirm']
 
+            if key != key_confirm:
+                messages.error(request, 'Fields New master and New master confirm do not match')
+                return render(request, 'passmanager/new_master.html', {'form': form})
+
             last_master = form.cleaned_data['last_master']
             print(last_master)
             last_key = generate_key(
@@ -188,7 +198,7 @@ def master(request):
                     request, f'Your Master Password was successfully edited.')
                 return redirect('home')
             except InvalidToken:
-                messages.warning(request, 'The last master password you typed is wrong')
+                messages.error(request, 'The last master password you typed is wrong')
                 return render(request, 'passmanager/master.html', {'form': form})
 
         else:
