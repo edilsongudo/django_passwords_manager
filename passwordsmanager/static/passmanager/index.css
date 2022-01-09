@@ -47,29 +47,6 @@ form, .alert,  {
   margin: 10px auto;
 }
 
-.entrycontainer {
-  position: relative;
-  background: var(--bodytext);;
-  text-align: left;
-  padding: 20px;
-  border-radius: 5px;
-  margin: 10px auto;
-  color: var(--buttontext);
-  width: 300px;
-}
-
-.entry-attribute {
-  font-weight: bold;
-}
-
-.update {
-  width: 80px;
-  border-radius: 5px;
-  padding: 8px;
-  border-color: transparent;
-  background: var(--bgcolor1);
-  color: var(--bodytext);;
-}
 
 input[type=text], input[type=url], input[type=email], input[type=password], input[type=search], input[type=tel], input[type=number] {
   background: rgba(255, 255, 255, 0.85);
@@ -117,3 +94,85 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
   font-size: 3rem;
 }
 
+/* --------- Entry -------------*/
+
+.entrycontainer {
+  position: relative;
+  background: var(--bodytext);;
+  text-align: left;
+  padding: 20px;
+  border-radius: 5px;
+  margin: 10px auto;
+  color: var(--buttontext);
+  width: 300px;
+}
+
+.entry-attribute {
+  font-weight: bold;
+}
+
+.update {
+  width: 80px;
+  border-radius: 5px;
+  padding: 8px;
+  border-color: transparent;
+  background: var(--bgcolor1);
+  color: var(--bodytext);;
+}
+
+.modal-container {
+  background: rgba(0,0,0,0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+/*--------- botom nav ----------*/
+.bottom-nav {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100vw;
+    position: absolute;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 1);
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 65px;
+    padding: 10px;
+    display: flex;
+    z-index: 1000;
+    /*border: 3px solid rgba(213, 221, 236, 0.4);*/
+    box-shadow: rgba(213, 221, 236, 0.4) 1px 1px 1px 1px;
+    font-size: 1.5rem;
+}
+
+.bottom-nav a {
+  color: grey;
+}
+
+.bottom-nav a:hover, .bottom-nav-active {
+  color: lightblue;
+}
+
+@media only screen and (min-width: 800px) {
+  .bottom-nav {
+    top: 0;
+    height: 100vh;
+    width: 65px;
+    flex-direction: column;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 10px;
+  }
+}

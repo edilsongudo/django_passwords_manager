@@ -13,9 +13,25 @@
     <div id="app">
         <router-view></router-view>
     </div>
+    <!-- Nav -->
+    <div class="bottom-nav">
+        <div class="bottom-nav-active">
+            <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+        </div>
+        <div class="">
+            <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+        </div>
+        <div class="">
+            <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+        </div>
+        <div class="">
+            <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+        </div>
+    </div>
+    <!-- End of Nav -->
     <script type="text/javascript" src="{% static 'passmanager/getcsrf.js' %}"></script>
-    <script type="text/javascript" src="{% static 'passmanager/vue.js' %}"></script>
-    <script type="text/javascript" src="{% static 'passmanager/vue-router.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/vue.global.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/vue-router.global.js' %}"></script>
     <script type="text/javascript" src="{% static 'passmanager/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'passmanager/components/home.vue.js' %}"></script>
 
@@ -27,15 +43,17 @@
             },
         ]
 
-        const router = new VueRouter ({
+        const router = VueRouter.createRouter({
+            history: VueRouter.createWebHashHistory(),
             routes,
-            // mode: 'history' //hash
         })
 
-        const app = new Vue({
-            el: '#app',
-            router,
+        const app = Vue.createApp({
         })
+
+        app.use(router)
+
+        app.mount("#app")
     </script>
 </body>
 </html>

@@ -19,25 +19,25 @@ var home = {
                 </div>
 
                 <div v-if="authenticated && !show_list">
-                    <div v-html>
+                    <div>
                         <div class="form-group">
                             <div><label for="masterpassword">Site</label></div>
-                            <input placeholder="Site" id="entrysite" v-model="entrysite" class="textinput textInput form-control" type="text" name="site" value="" autocomplete="off">
+                            <input placeholder="Site" id="entrysite" v-model="entrysite" class="textinput textInput form-control" type="text" name="site" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <div><label for="masterpassword">Email or Username</label></div>
-                            <input placeholder="Email" id="entryemail" v-model="entryemail" class="textinput textInput form-control" type="text" name="email" value="" autocomplete="off">
+                            <input placeholder="Email" id="entryemail" v-model="entryemail" class="textinput textInput form-control" type="text" name="email" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <div><label for="masterpassword">Password</label></div>
-                            <input placeholder="Password" id="entrypassword" v-model="entrypassword" class="textinput textInput form-control" type="text" name="password" value="" autocomplete="off">
+                            <input placeholder="Password" id="entrypassword" v-model="entrypassword" class="textinput textInput form-control" type="text" name="password" autocomplete="off">
                         </div>
                         <div><button class="cta cta1" type="submit" @click=addNewEntry>Add <i class="fas fa-plus"></i></button></div>
                     </div>
                 </div>
 
                 <div v-else-if="authenticated && show_list">
-                    <div v-html>
+                    <div>
                         <div class="form-group">
                             <div class="entrycontainer" v-for="entry in entries">
                                 <div>
@@ -48,12 +48,17 @@ var home = {
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
+                                <teleport to="body">
+                                    <div class="modal-container">
+                                        [[ entry.site ]]
+                                    </div>
+                                </teleport>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <form v-else v-html>
+                <form v-else >
                     <!-- <div class="alert alert-info">Your vault can only be decrypted with your master password</div> -->
                     <h3>Open Vault</h3>
                     <div class="form-group">
