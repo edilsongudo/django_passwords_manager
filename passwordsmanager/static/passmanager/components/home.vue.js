@@ -41,9 +41,12 @@ var home = {
                         <div class="form-group">
                             <div class="entrycontainer" v-for="entry in entries">
                                 <div>
-                                    <div class="entry-site textinput textInput form-control">Site: [[ entry.site ]]</div>
-                                    <div class="entry-email textinput textInput form-control">User: [[ entry.email ]]</div>
-                                    <div class="entry-password textinput textInput form-control">Password: [[ entry.decrypted_password ]]</div>
+                                    <div class="entry-site"><span class="entry-attribute">Site:</span> [[ entry.site ]]</div>
+                                    <div class="entry-email"><span class="entry-attribute">User:</span> [[ entry.email ]]</div>
+                                    <div class="entry-password"><span class="entry-attribute">Password:</span> [[ entry.decrypted_password ]]</div>
+                                    <button class="update">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>

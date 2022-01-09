@@ -15,12 +15,11 @@ body {
   background: linear-gradient(90deg, var(--bgcolor1), var(--bgcolor2));
   color: var(--bodytext);
   font-family: 'CeraProMedium', sans-serif;
+   word-wrap: break-word
 }
 
 .quick-action {
-  position: absolute;
-  top: 10px;
-  margin: 0 auto;
+
 }
 
 .alert {
@@ -48,20 +47,29 @@ form, .alert,  {
   margin: 10px auto;
 }
 
-.entriescontainer {
-  max-width: 90%;
-  margin: 0 auto;
-}
-
 .entrycontainer {
-  background: rgba(255, 255, 255, 0.7);
+  position: relative;
+  background: var(--bodytext);;
   text-align: left;
-  padding: 10px;
+  padding: 20px;
   border-radius: 5px;
   margin: 10px auto;
-  color: #000;
+  color: var(--buttontext);
+  width: 300px;
 }
 
+.entry-attribute {
+  font-weight: bold;
+}
+
+.update {
+  width: 80px;
+  border-radius: 5px;
+  padding: 8px;
+  border-color: transparent;
+  background: var(--bgcolor1);
+  color: var(--bodytext);;
+}
 
 input[type=text], input[type=url], input[type=email], input[type=password], input[type=search], input[type=tel], input[type=number] {
   background: rgba(255, 255, 255, 0.85);
