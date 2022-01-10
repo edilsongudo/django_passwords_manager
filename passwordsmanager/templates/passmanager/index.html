@@ -16,24 +16,28 @@
     <!-- Nav -->
     <div class="bottom-nav">
         <div class="bottom-nav-active">
-            <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+            <a href="{% url 'home' %}"><i class="fal fa-home"></i></a>
         </div>
         <div class="">
-            <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+            <a href="{% url 'home' %}"><i class="fal fa-dice"></i></a>
         </div>
         <div class="">
-            <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+            <a href="{% url 'master' %}"><i class="fal fa-info"></i></a>
         </div>
         <div class="">
-            <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+            <a href="{% url 'home' %}"><i class="fal fa-cog"></i></a>
         </div>
     </div>
     <!-- End of Nav -->
+
     <script type="text/javascript" src="{% static 'passmanager/getcsrf.js' %}"></script>
     <script type="text/javascript" src="{% static 'passmanager/vue.global.js' %}"></script>
     <script type="text/javascript" src="{% static 'passmanager/vue-router.global.js' %}"></script>
     <script type="text/javascript" src="{% static 'passmanager/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/sweetalert.min.js' %}"></script>
+    <!-- Vue Components -->
     <script type="text/javascript" src="{% static 'passmanager/components/home.vue.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/components/passwordGenerator.vue.js' %}"></script>
 
     <script type="text/javascript">
         const routes = [
@@ -41,6 +45,10 @@
                 path: '/',
                 component: home,
             },
+            {
+                path: '/password-generator',
+                component: passwordGenerator,
+            }
         ]
 
         const router = VueRouter.createRouter({

@@ -40,6 +40,7 @@ def home(request):
 
                 if not entry.is_generated_for_initial_master_pw_check:
                     response.append({
+                        'id': entry.pk,
                         'site': entry.site_name,
                         'email': entry_email,
                         'encrypted_password': entry.site_password_used,
@@ -208,29 +209,15 @@ def master(request):
     return render(request, 'passmanager/master.html', {'form': form})
 
 
-
-# def delete(request, pk):
-#     entry = Entry.objects.get(pk=pk)
-#     if request.method == 'POST':
-#         entry.delete()
-#         print('Deleted')
-#         return redirect('mypasswords')
-#     return render(request, 'passmanager/delete.html', {'entry': entry})
-
-# def edit(request, pk):
-#     entry = Entry.objects.get(pk=pk)
-#     form = EntryForm(instance=entry)
-#     if request.method == 'POST':
-#         form = EntryForm(request.POST, instance=entry)
-#         pass
-#         # entry.site_name =
-#         # entry.site_email_used =
-#         # entry.site_password_used =
-#         # entry.save()
-#         return redirect('mypasswords')
-#     return render(request, 'passmanager/edit.html', {'form': form})
-
-
+@login_required
+def delete(request):
+    if request.method == 'POST':
+        pk = request.POST['id']
+        entry = Entry.objects.get(pk=pk)
+        entry.delete()
+        print(f'Entry with id {pk} deleted')
+        return JsonResponse({'response': "ok"})
+    return JsonResponse({'response': "fail"})
 
 
 def error_404_view(request, *args, **argv):

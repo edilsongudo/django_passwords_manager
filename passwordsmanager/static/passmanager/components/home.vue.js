@@ -44,15 +44,10 @@ var home = {
                                     <div class="entry-site"><span class="entry-attribute">Site:</span> [[ entry.site ]]</div>
                                     <div class="entry-email"><span class="entry-attribute">User:</span> [[ entry.email ]]</div>
                                     <div class="entry-password"><span class="entry-attribute">Password:</span> [[ entry.decrypted_password ]]</div>
-                                    <button class="update">
+                                    <button :id="entry.site" @click="deleteEntry([[ entry.id ]])" class="update">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
-                                <teleport to="body">
-                                    <div class="modal-container">
-                                        [[ entry.site ]]
-                                    </div>
-                                </teleport>
                             </div>
                         </div>
                     </div>
@@ -96,21 +91,25 @@ var home = {
                 // Increment the idle time counter every minute.
                 var idleInterval = setInterval(timerIncrement, 1000); // 1 second
 
-                // Zero the idle timer on mouse movement.
+                // Zero the idle timer on user interaction
                 $(this).mousemove(function (e) {
                     idleTime = 0;
                 });
                 $(this).keypress(function (e) {
                     idleTime = 0;
                 });
+                $(this).scroll(function (e) {
+                    idleTime = 0;
+                });
             });
 
             function timerIncrement() {
                 idleTime = idleTime + 1;
-                if (idleTime > 300) { // 300 seconds
-                    state.masterpassword = false
+                if (idleTime > 180) { // allowed inativity time in seconds
                     state.authenticated = false
-                    console.log('idle')
+                    state.masterpassword = false
+                    state.entries = []
+                    state.show_alert(state, {message: "Logged out due to inativity", class: "alert alert-danger"}, 30000)
                     idleTime = 0 //line added by me. It is optional
                 }
             }
@@ -135,13 +134,11 @@ var home = {
                 data: obj,
                 type: 'post',
                 success: function(response) {
-                    console.log(response)
                     if (response['is_masterpass_correct'] == "true") {
                         state.entries = response['response']
                         state.authenticated = true
                         state.masterpassword = obj['masterpassword']
                         state.checkinativity()
-                        console.log(state.masterpassword)
                         state.show_alert(state, {message: "Successfully Authenticated", class: "alert alert-success"}, 3000)
                     } else {
                         state.show_alert(state, {message: "Your master password is wrong", class: "alert alert-danger"}, 3000)
@@ -181,8 +178,24 @@ var home = {
                 data: obj,
                 type: 'post',
                 success: function(response) {
-                    console.log(response)
                     state.entries = response['response']
+                }})
+        },
+
+        doAjaxPostDeleteEntry: function(path, obj) {
+            let data = JSON.stringify(obj)
+
+            var state = this
+
+            $.ajax({
+                url: path,
+                headers: {'X-CSRFToken': csrfToken},
+                dataType: 'json',
+                data: obj,
+                type: 'post',
+                success: function(response) {
+                    let index = state.entries.findIndex(item => item['id'] == obj['id'])
+                    state.entries.splice(index, 1)
                 }})
         },
 
@@ -217,10 +230,22 @@ var home = {
             } else {
                 this.show_alert(this, {message: "Plese, fill all the fields", class: "alert alert-danger"}, 3000)
             }
-        }
+        },
+
+        deleteEntry: function (e) {
+            const id = e[0][0]
+            swal({
+                text: "Are you sure you want to delete?",
+                buttons: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    this.doAjaxPostDeleteEntry('/delete/', {'id': id})
+                } else {
+                }
+            })
+        },
     },
 
     created() {
-        console.log('created')
     }
 }

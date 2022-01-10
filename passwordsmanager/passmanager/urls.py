@@ -9,6 +9,7 @@ urlpatterns = [
     # Views already touyched in the refactor proccess
     path('', views.home, name='home'),
     path('new/', views.new, name='new'),
+    path('delete/', views.delete, name='delete'),
     path('master/', views.master, name='master'),
     path('new_master/', views.new_master, name='new_master'),
 
