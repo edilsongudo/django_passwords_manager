@@ -104,13 +104,16 @@ var home = {
             });
 
             function timerIncrement() {
-                idleTime = idleTime + 1;
-                if (idleTime > 180) { // allowed inativity time in seconds
+                if (state.authenticated) {
+                    idleTime = idleTime + 1;
+                }
+                let maximumInativitySecondsAllowed = 60 * 2
+                if (idleTime > maximumInativitySecondsAllowed) {
                     state.authenticated = false
                     state.masterpassword = false
                     state.entries = []
-                    state.show_alert(state, {message: "Logged out due to inativity", class: "alert alert-danger"}, 30000)
-                    idleTime = 0 //line added by me. It is optional
+                    swal(`Your were deauthenticated from your vault after ${maximumInativitySecondsAllowed} seconds of inativity.`)
+                    idleTime = 0
                 }
             }
         },
@@ -138,7 +141,6 @@ var home = {
                         state.entries = response['response']
                         state.authenticated = true
                         state.masterpassword = obj['masterpassword']
-                        state.checkinativity()
                         state.show_alert(state, {message: "Successfully Authenticated", class: "alert alert-success"}, 3000)
                     } else {
                         state.show_alert(state, {message: "Your master password is wrong", class: "alert alert-danger"}, 3000)
@@ -247,5 +249,6 @@ var home = {
     },
 
     created() {
+        this.checkinativity()
     }
 }

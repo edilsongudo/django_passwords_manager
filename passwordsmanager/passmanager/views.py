@@ -214,10 +214,16 @@ def delete(request):
     if request.method == 'POST':
         pk = request.POST['id']
         entry = Entry.objects.get(pk=pk)
-        entry.delete()
-        print(f'Entry with id {pk} deleted')
-        return JsonResponse({'response': "ok"})
+        if entry.author == request.user:
+            entry.delete()
+            print(f'Entry with id {pk} deleted')
+            return JsonResponse({'response': "ok"})
     return JsonResponse({'response': "fail"})
+
+
+def generate_password(request):
+    password = generate_secure_password()
+    return JsonResponse({'password': password})
 
 
 def error_404_view(request, *args, **argv):

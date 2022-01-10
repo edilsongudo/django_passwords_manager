@@ -3,6 +3,7 @@ import os
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
 from cryptography.fernet import Fernet
 import secrets
+import string
 
 
 def generate_key(password_provided, salt):
@@ -29,3 +30,11 @@ def decrypt(encrypted, key):
     f = Fernet(key)
     decrypted = f.decrypt(encrypted)
     return decrypted.decode()
+
+
+CHARS = string.ascii_letters + string.digits + string.punctuation
+
+
+def generate_secure_password(length=14, chars=CHARS):
+    password = ''.join(secrets.choice(chars) for i in range(length))
+    return password
