@@ -1,11 +1,26 @@
 :root {
+  --bgcolor1: #212121;
+  --bgcolor2: var(--bgcolor1);
+  --bodytext: #fff;
+  --buttonbg: #DB0000;
+  --buttontext: #fff;
+  --bottom-nav-bg: #252525;
+  --bottom-nav-color: #fff;
+  --bottom-nav-hover-color: var(--buttonbg);
+  --entry-bg: var(--bottom-nav-bg);
+}
+
+/*:root {
   --bgcolor1: #EDD2BC;
   --bgcolor2: #EDD2BC;
   --bodytext: #fff;
   --buttonbg: #fff;
   --buttontext: grey;
+  --bottom-nav-bg: #fff;
+  --bottom-nav-color: grey;
+  --bottom-nav-hover-color: lightblue;
 }
-
+*/
 @font-face {
     font-family: 'CeraProMedium';
     src: url('fonts/CeraProMedium.woff2')
@@ -15,7 +30,15 @@ body {
   background: linear-gradient(90deg, var(--bgcolor1), var(--bgcolor2));
   color: var(--bodytext);
   font-family: 'CeraProMedium', sans-serif;
-   word-wrap: break-word
+  word-wrap: break-word;
+}
+
+a {
+  color: var(--buttonbg)
+}
+
+button:focus {
+  outline: none;
 }
 
 .quick-action {
@@ -37,6 +60,14 @@ label {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  width: 50%;
+  position: relative;
+}
+
+@media only screen and (max-width: 800px) {
+  .container {
+    width: 90%;
+  }
 }
 
 .quick-action {
@@ -50,7 +81,7 @@ form, .alert,  {
 
 input[type=text], input[type=url], input[type=email], input[type=password], input[type=search], input[type=tel], input[type=number] {
   background: rgba(255, 255, 255, 0.85);
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 25px;
   border: 3px solid rgba(213, 221, 236, 0.4);
   margin-bottom: 10px;
@@ -61,14 +92,13 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
   margin: 0;
   padding: 0;
   display: inline-block;
-  border-radius: 50px;
-  /*padding-right: 50px;
-  padding-left: 50px;*/
-  width: 300px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  margin-bottom: 60px;
-  cursor: pointer;
+  border-radius: 5px;
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+/*  margin-bottom: 60px;
+*/  cursor: pointer;
 }
 
 .cta1 {
@@ -79,7 +109,7 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
 
 .cta1:focus {
   border: solid 2px var(--buttonbg);
-  background:  transparent;
+  background: transparent;
   transition: 0.3s;
   text-decoration: none;
   color: var(--bodytext);
@@ -98,12 +128,12 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
 
 .entrycontainer {
   position: relative;
-  background: var(--bodytext);;
+  background: var(--entry-bg);
   text-align: left;
   padding: 20px;
   border-radius: 5px;
   margin: 10px auto;
-  color: var(--buttontext);
+  color: var(--bottom-nav-color);
   width: 300px;
 }
 
@@ -120,22 +150,6 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
   color: var(--bodytext);;
 }
 
-.modal-container {
-  background: rgba(0,0,0,0.1);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-}
-
-
-
 
 /*--------- botom nav ----------*/
 .bottom-nav {
@@ -146,7 +160,7 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
     position: fixed;
     bottom: 0;
     left: 0;
-    background: rgba(255, 255, 255, 1);
+    background: var(--bottom-nav-bg);
     text-align: center;
     display: flex;
     justify-content: space-around;
@@ -156,16 +170,16 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
     display: flex;
     z-index: 1000;
     /*border: 3px solid rgba(213, 221, 236, 0.4);*/
-    box-shadow: rgba(213, 221, 236, 0.4) 1px 1px 1px 1px;
+    /*box-shadow: rgba(213, 221, 236, 0.4) 1px 1px 1px 1px;*/
     font-size: 1.5rem;
 }
 
 .bottom-nav a {
-  color: grey;
+  color: var(--bottom-nav-color);
 }
 
 .bottom-nav a:hover, .bottom-nav-active a {
-  color: lightblue;
+  color: var(--bottom-nav-hover-color);
 }
 
 @media only screen and (min-width: 800px) {
@@ -177,4 +191,53 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
     border-top-left-radius: 0px;
     border-bottom-right-radius: 10px;
   }
+}
+
+/* --------- settings ------------*/
+
+.settingscontainer {
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.setting {
+  display: flex;
+  align-items: center;
+}
+
+
+.setting a {
+  cursor: pointer;
+  width: 100%;
+  color: var(--bodytext);
+}
+
+.setting a i {
+  font-size: 1.5rem;
+}
+
+
+.setting a:hover {
+  background: var(--bottom-nav-bg);
+  text-decoration: none;
+  /*color: var(--buttonbg);
+*/}
+
+.setting-content {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.setting-content i {
+  margin-right: 20px;
+}
+
+.title {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.title {
+  margin-top: 40px;
 }

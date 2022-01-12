@@ -3,6 +3,7 @@
 <html>
 <head>
     <title></title>
+    <meta lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{% static 'passmanager/fontawesome-free-5.15.2-web/css/all.css' %}">
@@ -11,21 +12,25 @@
 </head>
 <body>
     <div id="app">
-        <router-view></router-view>
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
     </div>
     <!-- Nav -->
     <div class="bottom-nav">
         <div class="">
-            <a href="#/"><i class="fal fa-home"></i></a>
+            <a href="/#/"><i class="fal fa-home"></i></a>
         </div>
         <div class="">
-            <a href="#/password-generator"><i class="fal fa-dice"></i></a>
+            <a href="/#/password-generator"><i class="fal fa-dice"></i></a>
         </div>
         <div class="">
-            <a href="{% url 'master' %}"><i class="fal fa-info"></i></a>
+            <a href="/#/info"><i class="fal fa-info"></i></a>
         </div>
         <div class="">
-            <a href="{% url 'home' %}"><i class="fal fa-cog"></i></a>
+            <a href="/#/settings"><i class="fal fa-cog"></i></a>
         </div>
     </div>
     <!-- End of Nav -->
@@ -37,6 +42,8 @@
     <script type="text/javascript" src="{% static 'passmanager/sweetalert.min.js' %}"></script>
     <!-- Vue Components -->
     <script type="text/javascript" src="{% static 'passmanager/components/home.vue.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/components/info.vue.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/components/settings.vue.js' %}"></script>
     <script type="text/javascript" src="{% static 'passmanager/components/passwordGenerator.vue.js' %}"></script>
 
     <script type="text/javascript">
@@ -48,6 +55,14 @@
             {
                 path: '/password-generator',
                 component: passwordGenerator,
+            },
+            {
+                path: '/settings',
+                component: settings,
+            },
+            {
+                path: '/info',
+                component: info,
             }
         ]
 

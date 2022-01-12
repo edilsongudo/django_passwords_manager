@@ -11,10 +11,10 @@ var home = {
 
                 <div class="quick-action">
                     <button v-if="authenticated && !show_list" @click="listentries" class="shortcut">
-                        <i class="fas fa-list"></i>
+                        <i class="fal fa-list"></i>
                     </button>
                     <button v-if="authenticated && show_list" @click="listentries" class="shortcut">
-                        <i class="fas fa-plus"></i>
+                        <i class="fal fa-plus"></i>
                     </button>
                 </div>
 
@@ -32,7 +32,7 @@ var home = {
                             <div><label for="masterpassword">Password</label></div>
                             <input placeholder="Password" id="entrypassword" v-model="entrypassword" class="textinput textInput form-control" type="text" name="password" autocomplete="off">
                         </div>
-                        <div><button class="cta cta1" type="submit" @click=addNewEntry>Add <i class="fas fa-plus"></i></button></div>
+                        <div><button class="cta cta1" type="submit" @click=addNewEntry>Add <i class="fal fa-plus"></i></button></div>
                     </div>
                 </div>
 
@@ -45,7 +45,7 @@ var home = {
                                     <div class="entry-email"><span class="entry-attribute">User:</span> [[ entry.email ]]</div>
                                     <div class="entry-password"><span class="entry-attribute">Password:</span> [[ entry.decrypted_password ]]</div>
                                     <button :id="entry.site" @click="deleteEntry([[ entry.id ]])" class="update">
-                                        <i class="fas fa-trash"></i>
+                                        <i class="fal fa-trash"></i>
                                     </button>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@ var home = {
                         <div><label for="masterpassword">Master Password</label></div>
                         <input placeholder="Master Password" autofocus id="masterpassword" class="textinput textInput form-control" type="text" name="master" value="" autocomplete="off">
                     </div>
-                    <div><button class="cta cta1" type="submit" @click=checkMasterPassword>Open <i class="fas fa-key"></i></button></div>
+                    <div><button class="cta cta1" type="submit" @click=checkMasterPassword>Open <i class="fal fa-key"></i></button></div>
                 </form>
 
             </div>
@@ -112,7 +112,7 @@ var home = {
                     state.authenticated = false
                     state.masterpassword = false
                     state.entries = []
-                    swal(`Your were deauthenticated from your vault after ${maximumInativitySecondsAllowed} seconds of inativity.`)
+                    swal(`Your were deauthenticated due to inativity.`)
                     idleTime = 0
                 }
             }
@@ -141,9 +141,8 @@ var home = {
                         state.entries = response['response']
                         state.authenticated = true
                         state.masterpassword = obj['masterpassword']
-                        state.show_alert(state, {message: "Successfully Authenticated", class: "alert alert-success"}, 3000)
                     } else {
-                        state.show_alert(state, {message: "Your master password is wrong", class: "alert alert-danger"}, 3000)
+                        swal("Your master password is wrong. Try Again")
                     }
                 }})
         },
@@ -161,9 +160,13 @@ var home = {
                 type: 'post',
                 success: function(response) {
                     if (response['status'] == 'ok') {
-                        state.show_alert(state, {message: "Entry Successfully Created", class: "alert alert-success"}, 3000)
+                        state.entrysite = ""
+                        state.entryemail = ""
+                        state.entrypassword = ""
+                        swal("Entry Successfully Created")
                     } else {
-                        state.show_alert(state, {message: response['errors'], class: "alert alert-danger"}, 3000)
+                        let message = response['errors']
+                        swal("Please all ensure all fields have at maximum 70 chars")
                     }
                 }})
         },
@@ -226,10 +229,8 @@ var home = {
                     masterpassword: this.masterpassword.trim(),
                 }
                 this.doAjaxPostNewEntry('/new/', postData)
-                this.entrysite = ""
-                this.entryemail = ""
-                this.entrypassword = ""
             } else {
+                // swal("Plese, fill all the fields")
                 this.show_alert(this, {message: "Plese, fill all the fields", class: "alert alert-danger"}, 3000)
             }
         },

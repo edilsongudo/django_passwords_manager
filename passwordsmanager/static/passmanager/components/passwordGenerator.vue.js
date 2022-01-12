@@ -10,7 +10,7 @@ var passwordGenerator = {
                 </div>
                 <div>
                     <button @click="getrandompassword" class="cta cta1" >
-                        Generate <i class="fas fa-dice"></i>
+                        Generate <i class="fal fa-dice"></i>
                     </button>
                 </div>
             </div>
