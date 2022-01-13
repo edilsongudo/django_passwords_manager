@@ -20,16 +20,16 @@
     </div>
     <!-- Nav -->
     <div class="bottom-nav">
-        <div class="">
+        <div id="home" class="">
             <a href="/#/"><i class="fal fa-home"></i></a>
         </div>
-        <div class="">
+        <div id="passwordGenerator" class="">
             <a href="/#/password-generator"><i class="fal fa-dice"></i></a>
         </div>
-        <div class="">
+        <div id="info" class="">
             <a href="/#/info"><i class="fal fa-info"></i></a>
         </div>
-        <div class="">
+        <div id="settings" class="">
             <a href="/#/settings"><i class="fal fa-cog"></i></a>
         </div>
     </div>
@@ -69,6 +69,37 @@
         const router = VueRouter.createRouter({
             history: VueRouter.createWebHashHistory(),
             routes,
+        })
+
+        router.afterEach((to, from) => {
+            const path = to.path
+            const homeNav = document.querySelector('#home')
+            const passwordGeneratorNav = document.querySelector('#passwordGenerator')
+            const infoNav = document.querySelector('#info')
+            const settingsNav = document.querySelector('#settings')
+
+            // handle Nav Element Active Colors
+            if (path == "/") {
+                homeNav.classList.add('bottom-nav-active')
+
+            } else {
+                homeNav.classList.remove('bottom-nav-active')
+            }
+            if (path == "/password-generator") {
+                passwordGeneratorNav.classList.add('bottom-nav-active')
+            } else {
+                passwordGeneratorNav.classList.remove('bottom-nav-active')
+            }
+            if (path == "/info") {
+                infoNav.classList.add('bottom-nav-active')
+            } else {
+                infoNav.classList.remove('bottom-nav-active')
+            }
+            if (path == "/settings") {
+                settingsNav.classList.add('bottom-nav-active')
+            } else {
+                settingsNav.classList.remove('bottom-nav-active')
+            }
         })
 
         const app = Vue.createApp({

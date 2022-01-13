@@ -1,11 +1,11 @@
 :root {
   --bgcolor1: #212121;
   --bgcolor2: var(--bgcolor1);
-  --bodytext: #fff;
-  --buttonbg: #DB0000;
-  --buttontext: #fff;
+  --bodytext: #EDEDED;
+  --buttonbg: #03dac6; /*cf6679*/
+  --buttontext: #212121;
   --bottom-nav-bg: #252525;
-  --bottom-nav-color: #fff;
+  --bottom-nav-color: #EDEDED;
   --bottom-nav-hover-color: var(--buttonbg);
   --entry-bg: var(--bottom-nav-bg);
 }
@@ -37,7 +37,7 @@ a {
   color: var(--buttonbg)
 }
 
-button:focus {
+*:focus {
   outline: none;
 }
 
@@ -112,7 +112,7 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
   background: transparent;
   transition: 0.3s;
   text-decoration: none;
-  color: var(--bodytext);
+  color: var(--buttonbg);
 }
 
 .shortcut {
