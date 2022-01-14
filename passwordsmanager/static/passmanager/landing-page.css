@@ -10,17 +10,7 @@
   --entry-bg: var(--bottom-nav-bg);
 }
 
-/*:root {
-  --bgcolor1: #EDD2BC;
-  --bgcolor2: #EDD2BC;
-  --bodytext: #fff;
-  --buttonbg: #fff;
-  --buttontext: grey;
-  --bottom-nav-bg: #fff;
-  --bottom-nav-color: grey;
-  --bottom-nav-hover-color: lightblue;
-}
-*/
+
 @font-face {
     font-family: 'CeraProMedium';
     src: url('fonts/CeraProMedium.woff2')
@@ -33,7 +23,7 @@ body {
   word-wrap: break-word;
 }
 
-a {
+a, h1, h2, h3, h4, h5, h6 {
   color: var(--buttonbg)
 }
 
@@ -41,43 +31,30 @@ a {
   outline: none;
 }
 
-.quick-action {
-
+.section-title {
+  font-weight: bold;
+  font-size: 2rem;
 }
 
-.alert {
-  margin-top: 40px;
-  max-width: 350px;
-}
-
-
-label {
-  display: none;
-}
-
-.container {
+.flex {
   display: flex;
-  justify-content: center;
   align-items: center;
   min-height: 100vh;
-  width: 50%;
-  position: relative;
+}
+
+.half {
+  max-width: 50%;
 }
 
 @media only screen and (max-width: 800px) {
   .container {
     width: 90%;
   }
-}
 
-.quick-action {
-  text-align: right;
+  .half {
+    max-width: 100%;
+  }
 }
-
-form, .alert,  {
-  margin: 10px auto;
-}
-
 
 input[type=text], input[type=url], input[type=email], input[type=password], input[type=search], input[type=tel], input[type=number] {
   background: rgba(255, 255, 255, 0.85);
@@ -114,42 +91,6 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
   text-decoration: none;
   color: var(--buttonbg);
 }
-
-.shortcut {
-  border-color: transparent;
-  outline: none;
-  color: var(--buttonbg);
-  background: transparent;
-  cursor: pointer;
-  font-size: 3rem;
-}
-
-/* --------- Entry -------------*/
-
-.entrycontainer {
-  position: relative;
-  background: var(--entry-bg);
-  text-align: left;
-  padding: 20px;
-  border-radius: 5px;
-  margin: 10px auto;
-  color: var(--bottom-nav-color);
-  width: 300px;
-}
-
-.entry-attribute {
-  font-weight: bold;
-}
-
-.update {
-  width: 80px;
-  border-radius: 5px;
-  padding: 8px;
-  border-color: transparent;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--buttonbg);
-}
-
 
 /*--------- botom nav ----------*/
 .bottom-nav {
@@ -191,53 +132,4 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
     border-top-left-radius: 0px;
     border-bottom-right-radius: 10px;
   }
-}
-
-/* --------- settings ------------*/
-
-.settingscontainer {
-  width: 100%;
-  position: absolute;
-  top: 0;
-}
-
-.setting {
-  display: flex;
-  align-items: center;
-}
-
-
-.setting a {
-  cursor: pointer;
-  width: 100%;
-  color: var(--bodytext);
-}
-
-.setting a i {
-  font-size: 1.5rem;
-}
-
-
-.setting a:hover {
-  background: var(--bottom-nav-bg);
-  text-decoration: none;
-  /*color: var(--buttonbg);
-*/}
-
-.setting-content {
-  padding: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.setting-content i {
-  margin-right: 20px;
-}
-
-.title {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-.title {
-  margin-top: 40px;
 }

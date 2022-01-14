@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'passmanager/fontawesome-free-5.15.2-web/css/all.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'passmanager/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'passmanager/landing-page.css' %}">
+</head>
+<body>
+    <div class="container">
+        <section class="flex">
+            <div class="section-section half">
+                <h2 class="section-title">THE ONLY PASSWORD YOU WILL EVER NEED TO REMEBER</h2>
+                <p>Safely store encrypted passwords in the cloud and generate strong passwords</p>
+                <a href="{% url 'account_login' %}" class="cta cta1">LOGIN</a>
+            </div>
+        </section>
+    </div>
+    <script type="text/javascript" src="{% static 'passmanager/getcsrf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/vue.global.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/vue-router.global.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'passmanager/sweetalert.min.js' %}"></script>
+</body>
+</html>

@@ -5,7 +5,7 @@ var info = {
             <div class="content settingscontainer">
                 <div class="title">
                     <h4>Algorithm Used</h4>
-                    <p>This password manager uses Advanced Encryption and Scrypt Algorithm to encrypt your vault.</p>
+                    <p>The current version of this password manager uses Advanced Encryption with Scrypt Algorithm.</p>
                     <h4>Data Storage</h4>
                     <p>This app does not store any information about your master password, not even a hashed version of it.</p>
                     <h4>How the app determines whether your master password is correct or not?</h4>

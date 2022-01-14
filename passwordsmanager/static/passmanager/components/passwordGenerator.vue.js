@@ -5,6 +5,7 @@ var passwordGenerator = {
 
             <div>
                 <h3>Password Generator</h3>
+                <p>Generate strong passwords</p>
                 <div class="form-group">
                     <input v-model="password" autofocus id="masterpassword" class="textinput textInput form-control" type="text" name="master" autocomplete="off">
                 </div>

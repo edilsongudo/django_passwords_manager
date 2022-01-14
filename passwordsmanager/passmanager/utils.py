@@ -35,6 +35,6 @@ def decrypt(encrypted, key):
 CHARS = string.ascii_letters + string.digits + string.punctuation
 
 
-def generate_secure_password(length=14, chars=CHARS):
+def generate_secure_password(length=20, chars=CHARS):
     password = ''.join(secrets.choice(chars) for i in range(length))
     return password

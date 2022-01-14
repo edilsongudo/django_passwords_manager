@@ -11,8 +11,13 @@ import json
 import secrets
 
 
-@login_required
+# @login_required
 def home(request):
+    print(request.user.is_authenticated)
+
+    if not request.user.is_authenticated:
+        return render(request, 'passmanager/landing_page.html')
+
 
     if not request.user.masterpassword.has_defined_a_master_password:
         return redirect('new_master')

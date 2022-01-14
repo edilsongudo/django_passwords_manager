@@ -55,12 +55,13 @@ var home = {
 
                 <form v-else >
                     <!-- <div class="alert alert-info">Your vault can only be decrypted with your master password</div> -->
-                    <h3>Open Vault</h3>
+                    <h3>Unlock Vault</h3>
+                    <p>Access your encrypted passwords</p>
                     <div class="form-group">
                         <div><label for="masterpassword">Master Password</label></div>
                         <input placeholder="Master Password" autofocus id="masterpassword" class="textinput textInput form-control" type="text" name="master" value="" autocomplete="off">
                     </div>
-                    <div><button class="cta cta1" type="submit" @click=checkMasterPassword>Open <i class="fal fa-key"></i></button></div>
+                    <div><button class="cta cta1" type="submit" @click=checkMasterPassword>Unlock <i class="fal fa-key"></i></button></div>
                 </form>
 
             </div>
@@ -72,7 +73,7 @@ var home = {
             authenticated: false,
             masterpassword: false,
             message: false,
-            show_list: false,
+            show_list: true,
             entrysite: "",
             entrypassword: "",
             entryemail: "",
@@ -91,7 +92,7 @@ var home = {
                 // Increment the idle time counter every minute.
                 var idleInterval = setInterval(timerIncrement, 1000); // 1 second
 
-                // Zero the idle timer on user interaction
+                // Reset the idle timer on user interaction
                 $(this).mousemove(function (e) {
                     idleTime = 0;
                 });
