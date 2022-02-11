@@ -64,6 +64,11 @@ label {
   position: relative;
 }
 
+.fullwidth {
+  margin: 0 auto;
+  width: 100%;
+}
+
 @media only screen and (max-width: 800px) {
   .container {
     width: 90%;
@@ -85,6 +90,12 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
   padding: 25px;
   border: 3px solid rgba(213, 221, 236, 0.4);
   margin-bottom: 10px;
+  color: #fff;
+  /*box-shadow: rgba(213, 221, 236, 0.4) 5px 5px 5px 5px;*/
+}
+
+input[type=text]:focus, input[type=url]:focus, input[type=email]:focus, input[type=password]:focus, input[type=search]:focus, input[type=tel]:focus, input[type=number]:focus {
+  color: #fff;
   /*box-shadow: rgba(213, 221, 236, 0.4) 5px 5px 5px 5px;*/
 }
 
@@ -134,7 +145,7 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
   border-radius: 5px;
   margin: 10px auto;
   color: var(--bottom-nav-color);
-  width: 300px;
+  /*width: 300px;*/
 }
 
 .entry-attribute {

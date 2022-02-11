@@ -3,7 +3,7 @@ var home = {
     `
         <div class="container">
 
-            <div>
+            <div class="fullwidth">
 
                 <div v-if="message" :class="message.class">
                     [[ message.message ]]

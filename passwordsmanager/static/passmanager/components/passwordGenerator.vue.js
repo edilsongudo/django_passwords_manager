@@ -3,7 +3,7 @@ var passwordGenerator = {
     `
         <div class="container">
 
-            <div>
+            <div class="fullwidth">
                 <h3>Password Generator</h3>
                 <p>Generate strong passwords</p>
                 <div class="form-group">
