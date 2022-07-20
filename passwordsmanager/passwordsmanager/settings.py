@@ -28,8 +28,7 @@ SECRET_KEY = 'd+om$3wilfupxh6oz8#atw-0i(y7iec%7_)7fgr-d!sc9q4_+e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1',
-                 '192.168.43.143', 'cristiangrey.pythonanywhere.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -134,6 +133,12 @@ STATIC_URL = '/static/'
 if DEBUG:
     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
     SITE_ID = 1
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        }
+    }
 
 else:
     pass

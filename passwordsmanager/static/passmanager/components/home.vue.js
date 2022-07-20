@@ -53,13 +53,13 @@ var home = {
                     </div>
                 </div>
 
-                <form v-else >
+                <form v-else autocomplete="off">
                     <!-- <div class="alert alert-info">Your vault can only be decrypted with your master password</div> -->
                     <h3>Unlock Vault</h3>
                     <p>Access your encrypted passwords</p>
                     <div class="form-group">
                         <div><label for="masterpassword">Master Password</label></div>
-                        <input placeholder="Master Password" autofocus id="masterpassword" class="textinput textInput form-control" type="text" name="master" value="" autocomplete="off">
+                        <input @input="oninput" placeholder="master password" autofocus id="masterpassword" class="textinput textInput form-control" type="text" name="master" value="">
                     </div>
                     <div><button class="cta cta1" type="submit" @click=checkMasterPassword>Unlock <i class="fal fa-key"></i></button></div>
                 </form>
@@ -84,6 +84,14 @@ var home = {
     delimiters: ['[[', ']]'],
 
     methods: {
+
+        oninput: function(e) {
+            if (e.target.value != "") {
+                e.target.classList.add('secret')
+            } else {
+                e.target.classList.remove('secret')
+            }
+        },
 
         checkinativity: function() {
             var idleTime = 0;
