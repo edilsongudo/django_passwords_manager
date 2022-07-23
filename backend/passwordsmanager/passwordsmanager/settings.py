@@ -48,11 +48,13 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     'allauth.socialaccount.providers.google',
     'crispy_forms',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -172,3 +174,8 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
 MESSAGE_TAGS = {messages.ERROR: 'danger'}
 
 SITE_ID = 1
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    ]

@@ -3,6 +3,7 @@ from django.http import FileResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.middleware.csrf import get_token
 from .forms import *
 from .models import *
 from .utils import *
