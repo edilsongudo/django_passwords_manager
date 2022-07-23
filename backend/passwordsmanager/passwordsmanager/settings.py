@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'crispy_forms',
     'corsheaders',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
