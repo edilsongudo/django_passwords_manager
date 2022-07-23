@@ -8,7 +8,7 @@ Uses Advanced Encryption with Scrypt algoritm.
 
 ### Screenshots
 
-<img src="passwordsmanager/screenshots/print1.jpg" width="550">
+<img src="screenshots/print1.jpg" width="550">
 
 ### Installation and Usage
 

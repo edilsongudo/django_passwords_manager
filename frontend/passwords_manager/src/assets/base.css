@@ -1,0 +1,254 @@
+:root {
+  --bgcolor1: #212121;
+  --bgcolor2: var(--bgcolor1);
+  --bodytext: #EDEDED;
+  --buttonbg: #03dac6;
+  --buttontext: #212121;
+  --bottom-nav-bg: #252525;
+  --bottom-nav-color: #EDEDED;
+  --bottom-nav-hover-color: var(--buttonbg);
+  --entry-bg: var(--bottom-nav-bg);
+}
+
+@font-face {
+    font-family: 'Averta';
+    src: url('fonts/averta/AvertaDemoPECuttedDemo-Regular.otf')
+}
+
+@font-face {
+  font-family: 'password';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://jsbin-user-assets.s3.amazonaws.com/rafaelcastrocouto/password.ttf);
+}
+
+.secret {
+  font-family: 'password';
+}
+
+body {
+  background: linear-gradient(90deg, var(--bgcolor1), var(--bgcolor2));
+  color: var(--bodytext);
+  font-family: 'Averta', sans-serif;
+  word-wrap: break-word;
+}
+
+a {
+  color: var(--buttonbg)
+}
+
+*:focus {
+  outline: none;
+}
+
+.quick-action {
+
+}
+
+.alert {
+  margin-top: 40px;
+  max-width: 350px;
+}
+
+
+label {
+  display: none;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 50%;
+  position: relative;
+}
+
+.fullwidth {
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media only screen and (max-width: 800px) {
+  .container {
+    width: 90%;
+  }
+}
+
+.quick-action {
+  text-align: right;
+}
+
+form, .alert,  {
+  margin: 10px auto;
+}
+
+
+input[type=text], input[type=url], input[type=email], input[type=password], input[type=search], input[type=tel], input[type=number] {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 5px;
+  padding: 25px;
+  border: 3px solid rgba(213, 221, 236, 0.4);
+  margin-bottom: 10px;
+  color: #fff;
+  /*box-shadow: rgba(213, 221, 236, 0.4) 5px 5px 5px 5px;*/
+}
+
+input[type=text]:focus, input[type=url]:focus, input[type=email]:focus, input[type=password]:focus, input[type=search]:focus, input[type=tel]:focus, input[type=number]:focus {
+  color: #fff;
+  /*box-shadow: rgba(213, 221, 236, 0.4) 5px 5px 5px 5px;*/
+}
+
+.cta {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  border-radius: 5px;
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+/*  margin-bottom: 60px;
+*/  cursor: pointer;
+}
+
+.cta1 {
+  border: solid 2px var(--buttonbg);
+  color: var(--buttontext);
+  background: var(--buttonbg);
+}
+
+.cta1:focus {
+  border: solid 2px var(--buttonbg);
+  background: transparent;
+  transition: 0.3s;
+  text-decoration: none;
+  color: var(--buttonbg);
+}
+
+.shortcut {
+  border-color: transparent;
+  outline: none;
+  color: var(--buttonbg);
+  background: transparent;
+  cursor: pointer;
+  font-size: 3rem;
+}
+
+/* --------- Entry -------------*/
+
+.entrycontainer {
+  position: relative;
+  background: var(--entry-bg);
+  text-align: left;
+  padding: 20px;
+  border-radius: 5px;
+  margin: 10px auto;
+  color: var(--bottom-nav-color);
+  /*width: 300px;*/
+}
+
+.entry-attribute {
+  font-weight: bold;
+}
+
+.update {
+  width: 80px;
+  border-radius: 5px;
+  padding: 8px;
+  border-color: transparent;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--buttonbg);
+}
+
+
+/*--------- botom nav ----------*/
+.bottom-nav {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100vw;
+    position: absolute;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: var(--bottom-nav-bg);
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 65px;
+    padding: 10px;
+    display: flex;
+    z-index: 1000;
+    /*border: 3px solid rgba(213, 221, 236, 0.4);*/
+    /*box-shadow: rgba(213, 221, 236, 0.4) 1px 1px 1px 1px;*/
+    font-size: 1.5rem;
+}
+
+.bottom-nav a {
+  color: var(--bottom-nav-color);
+}
+
+.bottom-nav a:hover, .bottom-nav-active a {
+  color: var(--bottom-nav-hover-color);
+}
+
+@media only screen and (min-width: 800px) {
+  .bottom-nav {
+    top: 0;
+    height: 100vh;
+    width: 65px;
+    flex-direction: column;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 10px;
+  }
+}
+
+/* --------- settings ------------*/
+
+.settingscontainer {
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.setting {
+  display: flex;
+  align-items: center;
+}
+
+
+.setting a {
+  cursor: pointer;
+  width: 100%;
+  color: var(--bodytext);
+}
+
+.setting a i {
+  font-size: 1.5rem;
+}
+
+
+.setting a:hover {
+  background: var(--bottom-nav-bg);
+  text-decoration: none;
+  /*color: var(--buttonbg);
+*/}
+
+.setting-content {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.setting-content i {
+  margin-right: 20px;
+}
+
+.title {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.title {
+  margin-top: 40px;
+}
