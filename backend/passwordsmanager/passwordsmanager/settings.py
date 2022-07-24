@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'corsheaders',
     'rest_framework',
-    'rest_framework_simplejwt.token_blacklist',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -187,4 +187,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+}
+
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('JWT',),
 }

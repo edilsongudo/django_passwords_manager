@@ -38,7 +38,7 @@ const store = createStore({
     },
     userLogin (context, usercredentials) {
       return new Promise((resolve, reject) => {
-        getAPI.post('/token/', {
+        getAPI.post('auth/jwt/create/', {
           username: usercredentials.username,
           password: usercredentials.password
         })
