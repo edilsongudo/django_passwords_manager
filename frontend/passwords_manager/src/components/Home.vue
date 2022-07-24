@@ -263,8 +263,13 @@
 
         created() {
             this.checkinativity()
-        }
+        },
 
+        beforeCreate() {
+            if(!this.$store.getters.loggedIn) {
+                this.$router.push({ name: 'login' })
+            }
+        }
     }
 </script>
 
