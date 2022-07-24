@@ -1,16 +1,51 @@
 import { createApp } from 'vue'
 import { createStore } from 'vuex'
+import { getAPI } from './axios-api'
 
 // Create a new store instance.
 const store = createStore({
   state () {
     return {
-      count: 0
+     accessToken: null,
+     refreshToken: null,
+     APIData: ''
     }
   },
   mutations: {
-    increment (state) {
-      state.count++
+    updateStorage (state, { access, refresh }) {
+      state.accessToken = access
+      state.refreshToken = refresh
+    },
+    destroyToken (state) {
+      state.accessToken = null
+      state.refreshToken = null
+    }
+  },
+  getters: {
+    loggedIn (state) {
+      return state.accessToken != null
+    }
+  },
+  actions: {
+    userLogout (context) {
+      if (context.getters.loggedIn) {
+          context.commit('destroyToken')
+      }
+    },
+    userLogin (context, usercredentials) {
+      return new Promise((resolve, reject) => {
+        getAPI.post('/token/', {
+          username: usercredentials.username,
+          password: usercredentials.password
+        })
+          .then(response => {
+            context.commit('updateStorage', { access: response.data.access, refresh: response.data.refresh }) 
+            resolve()
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
     }
   }
 })
