@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('passmanager.urls')),
     path("accounts/", include("allauth.urls")),
+    path('api/', include('api.urls'))
 ]
 
 handler404 = 'passmanager.views.error_404_view'

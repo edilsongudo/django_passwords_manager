@@ -18,7 +18,7 @@ class _ValidatorBase:
 
 class HasLowerCaseValidator(_ValidatorBase):
     __slots__ = ()
-    DEFAULT_MSG = "The password must contain at least one lowercase character."
+    DEFAULT_MSG = 'The password must contain at least one lowercase character.'
 
     def validate(self, password, user=None):
         if re.search('[a-z]', password) is None:
@@ -27,7 +27,7 @@ class HasLowerCaseValidator(_ValidatorBase):
 
 class HasUpperCaseValidator(_ValidatorBase):
     __slots__ = ()
-    DEFAULT_MSG = "The password must contain at least one uppercase character."
+    DEFAULT_MSG = 'The password must contain at least one uppercase character.'
 
     def validate(self, password, user=None):
         if re.search('[A-Z]', password) is None:
@@ -36,7 +36,7 @@ class HasUpperCaseValidator(_ValidatorBase):
 
 class HasNumberValidator(_ValidatorBase):
     __slots__ = ()
-    DEFAULT_MSG = "The password must contain at least one numeric character."
+    DEFAULT_MSG = 'The password must contain at least one numeric character.'
 
     def validate(self, password, user=None):
         if re.search('[0-9]', password) is None:
@@ -45,7 +45,7 @@ class HasNumberValidator(_ValidatorBase):
 
 class HasSymbolValidator(_ValidatorBase):
     __slots__ = ()
-    DEFAULT_MSG = "The password must contain at least one non-alphanumeric character (symbol)."
+    DEFAULT_MSG = 'The password must contain at least one non-alphanumeric character (symbol).'
 
     def validate(self, password, user=None):
         if re.search('[^A-Za-z0-9]', password) is None:

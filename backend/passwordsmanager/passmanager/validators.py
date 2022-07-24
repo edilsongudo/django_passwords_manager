@@ -3,13 +3,13 @@ from django.contrib.auth.password_validation import (
     UserAttributeSimilarityValidator,
     NumericPasswordValidator,
     CommonPasswordValidator,
-    MinimumLengthValidator
+    MinimumLengthValidator,
 )
 from .custom_validators import (
     HasLowerCaseValidator,
     HasUpperCaseValidator,
     HasNumberValidator,
-    HasSymbolValidator
+    HasSymbolValidator,
 )
 
 

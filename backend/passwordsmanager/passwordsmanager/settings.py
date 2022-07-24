@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'corsheaders',
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
@@ -180,3 +181,10 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
     ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}

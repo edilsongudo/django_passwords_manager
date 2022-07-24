@@ -10,7 +10,7 @@ from .validators import (
     has_lower_case,
     has_upper_case,
     has_number,
-    has_symbol
+    has_symbol,
 )
 
 
@@ -22,7 +22,6 @@ class EntryForm(forms.Form):
 
 
 class MasterPasswordForm(forms.Form):
-
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(MasterPasswordForm, self).__init__(*args, **kwargs)
@@ -30,12 +29,13 @@ class MasterPasswordForm(forms.Form):
     last_master = forms.CharField(
         max_length=70,
         label='Your master password',
-        widget=TextInput(attrs={
-            'autocomplete': 'off',
-            'placeholder': 'Your master password',
-            'autofocus': True
-        }
-        )
+        widget=TextInput(
+            attrs={
+                'autocomplete': 'off',
+                'placeholder': 'Your master password',
+                'autofocus': True,
+            }
+        ),
     )
 
     master = forms.CharField(
@@ -48,23 +48,25 @@ class MasterPasswordForm(forms.Form):
             has_lower_case,
             has_upper_case,
             has_number,
-            has_symbol
+            has_symbol,
         ],
-        widget=TextInput(attrs={
-            'autocomplete': 'off',
-            'placeholder': 'Your new master password'
-        }
-        )
+        widget=TextInput(
+            attrs={
+                'autocomplete': 'off',
+                'placeholder': 'Your new master password',
+            }
+        ),
     )
 
     master_confirm = forms.CharField(
         max_length=70,
         label='Confirm your new master password',
-        widget=TextInput(attrs={
-            'autocomplete': 'off',
-            'placeholder': 'Confirm your new master password'
-        }
-        )
+        widget=TextInput(
+            attrs={
+                'autocomplete': 'off',
+                'placeholder': 'Confirm your new master password',
+            }
+        ),
     )
 
     def clean_master(self):
@@ -74,7 +76,6 @@ class MasterPasswordForm(forms.Form):
 
 
 class MasterCreateForm(forms.Form):
-
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(MasterCreateForm, self).__init__(*args, **kwargs)
@@ -89,23 +90,25 @@ class MasterCreateForm(forms.Form):
             has_lower_case,
             has_upper_case,
             has_number,
-            has_symbol
+            has_symbol,
         ],
-        widget=TextInput(attrs={
-            'autocomplete': 'off',
-            'autofocus': True,
-            'placeholder': 'Define a new master password'
-        }
-        )
+        widget=TextInput(
+            attrs={
+                'autocomplete': 'off',
+                'autofocus': True,
+                'placeholder': 'Define a new master password',
+            }
+        ),
     )
     master_confirm = forms.CharField(
         max_length=70,
         label='Confirm your new master password',
-        widget=TextInput(attrs={
-            'autocomplete': 'off',
-            'placeholder': 'Confirm your new master password'
-        }
-        )
+        widget=TextInput(
+            attrs={
+                'autocomplete': 'off',
+                'placeholder': 'Confirm your new master password',
+            }
+        ),
     )
 
     def clean_master(self):
