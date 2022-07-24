@@ -3,7 +3,9 @@ import { RouterLink, RouterView } from 'vue-router'
 export default {
   beforeCreate() {
       if(!this.$store.getters.loggedIn) {
+        if (!this.$route.name in ['register']) {
           this.$router.push({ name: 'login' })
+        }
       }
   }
 }
