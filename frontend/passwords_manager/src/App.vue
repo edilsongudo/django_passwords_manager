@@ -1,5 +1,12 @@
-<script setup>
+<script>
 import { RouterLink, RouterView } from 'vue-router'
+export default {
+  beforeCreate() {
+      if(!this.$store.getters.loggedIn) {
+          this.$router.push({ name: 'login' })
+      }
+  }
+}
 </script>
 
 <template>
