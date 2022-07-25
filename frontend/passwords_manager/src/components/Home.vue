@@ -122,6 +122,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert';
 import { getAPI } from "../axios-api";
 export default {
   data() {
@@ -194,22 +195,15 @@ export default {
 
       var state = this;
 
-      $.ajax({
-        url: path,
-        headers: { "X-CSRFToken": csrfToken },
-        dataType: "json",
-        data: obj,
-        type: "post",
-        success: function (response) {
-          if (response["is_masterpass_correct"] == "true") {
-            state.entries = response["response"];
-            state.authenticated = true;
-            state.masterpassword = obj["masterpassword"];
-          } else {
-            swal("Your master password is wrong. Try Again");
-          }
-        },
-      });
+      getAPI.post(path, obj).then(response => {
+        if (response.data.is_masterpass_correct === true) {
+          state.entries = response["response"];
+          state.authenticated = true;
+          state.masterpassword = obj["masterpassword"];
+        } else {
+          swal("Your master password is wrong. Try Again");
+        }
+      })
     },
 
     doAjaxPostNewEntry: function (path, obj) {
