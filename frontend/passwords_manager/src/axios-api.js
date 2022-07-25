@@ -5,4 +5,19 @@ const getAPI = axios.create({
   timeout: 1000,
 });
 
+getAPI.interceptors.request.use(
+  (config) => {
+    let token = localStorage.getItem('accessToken');
+
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${ token }`;
+    }
+
+    return config;
+  }, 
+
+  (error) => {
+    return Promise.reject(error);
+  })
+
 export { getAPI };
