@@ -1,40 +1,40 @@
 :root {
   --bgcolor1: #212121;
   --bgcolor2: var(--bgcolor1);
-  --bodytext: #EDEDED;
+  --bodytext: #ededed;
   --buttonbg: #03dac6;
   --buttontext: #212121;
   --bottom-nav-bg: #252525;
-  --bottom-nav-color: #EDEDED;
+  --bottom-nav-color: #ededed;
   --bottom-nav-hover-color: var(--buttonbg);
   --entry-bg: var(--bottom-nav-bg);
 }
 
 @font-face {
-    font-family: 'Averta';
-    src: url('fonts/averta/AvertaDemoPECuttedDemo-Regular.otf')
+  font-family: "Averta";
+  src: url("fonts/averta/AvertaDemoPECuttedDemo-Regular.otf");
 }
 
 @font-face {
-  font-family: 'password';
+  font-family: "password";
   font-style: normal;
   font-weight: 400;
   src: url(https://jsbin-user-assets.s3.amazonaws.com/rafaelcastrocouto/password.ttf);
 }
 
 .secret {
-  font-family: 'password';
+  font-family: "password";
 }
 
 body {
   background: linear-gradient(90deg, var(--bgcolor1), var(--bgcolor2));
   color: var(--bodytext);
-  font-family: 'Averta', sans-serif;
+  font-family: "Averta", sans-serif;
   word-wrap: break-word;
 }
 
 a {
-  color: var(--buttonbg)
+  color: var(--buttonbg);
 }
 
 *:focus {
@@ -42,14 +42,12 @@ a {
 }
 
 .quick-action {
-
 }
 
 .alert {
   margin-top: 40px;
   max-width: 350px;
 }
-
 
 label {
   display: none;
@@ -79,12 +77,18 @@ label {
   text-align: right;
 }
 
-form, .alert,  {
+form,
+.alert {
   margin: 10px auto;
 }
 
-
-input[type=text], input[type=url], input[type=email], input[type=password], input[type=search], input[type=tel], input[type=number] {
+input[type="text"],
+input[type="url"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="number"] {
   background: rgba(255, 255, 255, 0.85);
   border-radius: 5px;
   padding: 25px;
@@ -94,7 +98,13 @@ input[type=text], input[type=url], input[type=email], input[type=password], inpu
   /*box-shadow: rgba(213, 221, 236, 0.4) 5px 5px 5px 5px;*/
 }
 
-input[type=text]:focus, input[type=url]:focus, input[type=email]:focus, input[type=password]:focus, input[type=search]:focus, input[type=tel]:focus, input[type=number]:focus {
+input[type="text"]:focus,
+input[type="url"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus {
   color: #fff;
   /*box-shadow: rgba(213, 221, 236, 0.4) 5px 5px 5px 5px;*/
 }
@@ -108,8 +118,9 @@ input[type=text]:focus, input[type=url]:focus, input[type=email]:focus, input[ty
   padding-left: 50px;
   padding-top: 5px;
   padding-bottom: 5px;
-/*  margin-bottom: 60px;
-*/  cursor: pointer;
+  /*  margin-bottom: 60px;
+*/
+  cursor: pointer;
 }
 
 .cta1 {
@@ -161,35 +172,35 @@ input[type=text]:focus, input[type=url]:focus, input[type=email]:focus, input[ty
   color: var(--buttonbg);
 }
 
-
 /*--------- botom nav ----------*/
 .bottom-nav {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    width: 100vw;
-    position: absolute;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background: var(--bottom-nav-bg);
-    text-align: center;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 65px;
-    padding: 10px;
-    display: flex;
-    z-index: 1000;
-    /*border: 3px solid rgba(213, 221, 236, 0.4);*/
-    /*box-shadow: rgba(213, 221, 236, 0.4) 1px 1px 1px 1px;*/
-    font-size: 1.5rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 100vw;
+  position: absolute;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: var(--bottom-nav-bg);
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 65px;
+  padding: 10px;
+  display: flex;
+  z-index: 1000;
+  /*border: 3px solid rgba(213, 221, 236, 0.4);*/
+  /*box-shadow: rgba(213, 221, 236, 0.4) 1px 1px 1px 1px;*/
+  font-size: 1.5rem;
 }
 
 .bottom-nav a {
   color: var(--bottom-nav-color);
 }
 
-.bottom-nav a:hover, .bottom-nav-active a {
+.bottom-nav a:hover,
+.bottom-nav-active a {
   color: var(--bottom-nav-hover-color);
 }
 
@@ -217,7 +228,6 @@ input[type=text]:focus, input[type=url]:focus, input[type=email]:focus, input[ty
   align-items: center;
 }
 
-
 .setting a {
   cursor: pointer;
   width: 100%;
@@ -228,12 +238,12 @@ input[type=text]:focus, input[type=url]:focus, input[type=email]:focus, input[ty
   font-size: 1.5rem;
 }
 
-
 .setting a:hover {
   background: var(--bottom-nav-bg);
   text-decoration: none;
   /*color: var(--buttonbg);
-*/}
+*/
+}
 
 .setting-content {
   padding: 20px;

@@ -3,12 +3,28 @@
     <div class="fullwidth">
       <form v-on:submit.prevent="login">
         <h1 class="">Please sign in</h1>
-        <p v-if="incorrectAuth">Incorrect username or password entered - please try again</p>
+        <p v-if="incorrectAuth">
+          Incorrect username or password entered - please try again
+        </p>
         <div class="form-group">
-          <input type="text" name="username" id="user" v-model="username" class="textinput textInput form-control" placeholder="Username">
+          <input
+            type="text"
+            name="username"
+            id="user"
+            v-model="username"
+            class="textinput textInput form-control"
+            placeholder="Username"
+          />
         </div>
         <div class="form-group">
-          <input type="password" name="password" id="pass" v-model="password" class="textinput textInput form-control" placeholder="Password">
+          <input
+            type="password"
+            name="password"
+            id="pass"
+            v-model="password"
+            class="textinput textInput form-control"
+            placeholder="Password"
+          />
         </div>
         <button type="submit" class="cta cta1">Login</button>
       </form>
@@ -17,32 +33,32 @@
 </template>
 
 <script>
-  export default {
-    name: 'login',
-    data () {
-      return {
-        username: '',
-        password: '',
-        incorrectAuth: false
-      }
-    },
-    methods: {
-      login () { 
-        this.$store.dispatch('userLogin', {
+export default {
+  name: "login",
+  data() {
+    return {
+      username: "",
+      password: "",
+      incorrectAuth: false,
+    };
+  },
+  methods: {
+    login() {
+      this.$store
+        .dispatch("userLogin", {
           username: this.username,
-          password: this.password
+          password: this.password,
         })
         .then(() => {
-          this.$router.push({ name: 'home' })
+          this.$router.push({ name: "home" });
         })
-        .catch(err => {
-          console.log(err)
-          this.incorrectAuth = true
-        })
-        }
-      }
-  }
+        .catch((err) => {
+          console.log(err);
+          this.incorrectAuth = true;
+        });
+    },
+  },
+};
 </script>
 
-<style>
-</style>
+<style></style>
