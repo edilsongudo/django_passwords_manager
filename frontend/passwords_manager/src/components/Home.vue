@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="fullwidth">
-      <div v-if="message" :class="message.class">[[ message.message ]]</div>
+      <div v-if="message" :class="message.class">{{ message.message }}</div>
 
       <div class="quick-action">
         <button
@@ -72,18 +72,18 @@
             <div class="entrycontainer" v-for="entry in entries">
               <div>
                 <div class="entry-site">
-                  <span class="entry-attribute">Site:</span> [[ entry.site ]]
+                  <span class="entry-attribute">Site:</span> {{ entry.site }}
                 </div>
                 <div class="entry-email">
-                  <span class="entry-attribute">User:</span> [[ entry.email ]]
+                  <span class="entry-attribute">User:</span> {{ entry.email }}
                 </div>
                 <div class="entry-password">
-                  <span class="entry-attribute">Password:</span> [[
-                  entry.decrypted_password ]]
+                  <span class="entry-attribute">Password:</span> {{
+                  entry.decrypted_password }}
                 </div>
                 <button
                   :id="entry.site"
-                  @click="deleteEntry([[entry.id]])"
+                  @click="deleteEntry(entry.id)"
                   class="update"
                 >
                   <i class="fal fa-trash"></i>
@@ -137,8 +137,6 @@ export default {
       entries: [],
     };
   },
-
-  delimiters: ["[[", "]]"],
 
   methods: {
     oninput: function (e) {
@@ -197,7 +195,7 @@ export default {
 
       getAPI.post(path, obj).then(response => {
         if (response.data.is_masterpass_correct === true) {
-          state.entries = response["response"];
+          state.entries = response.data.response;
           state.authenticated = true;
           state.masterpassword = obj["masterpassword"];
         } else {
@@ -211,24 +209,18 @@ export default {
 
       var state = this;
 
-      $.ajax({
-        url: path,
-        headers: { "X-CSRFToken": csrfToken },
-        dataType: "json",
-        data: obj,
-        type: "post",
-        success: function (response) {
-          if (response["status"] == "ok") {
-            state.entrysite = "";
-            state.entryemail = "";
-            state.entrypassword = "";
-            swal("Entry Successfully Created");
-          } else {
-            let message = response["errors"];
-            swal("Please all ensure all fields have at maximum 70 chars");
-          }
-        },
-      });
+      getAPI.post(path, obj).then(response => {
+        if (response.data.status == "ok") {
+          state.entrysite = "";
+          state.entryemail = "";
+          state.entrypassword = "";
+          swal("Entry Successfully Created");
+        } else {
+          let message = response.data.errors;
+          swal("Please all ensure all fields have at maximum 70 chars");
+        }
+      })
+
     },
 
     doAjaxPostrequestEntries: function (path, obj) {
@@ -236,16 +228,10 @@ export default {
 
       var state = this;
 
-      $.ajax({
-        url: path,
-        headers: { "X-CSRFToken": csrfToken },
-        dataType: "json",
-        data: obj,
-        type: "post",
-        success: function (response) {
-          state.entries = response["response"];
-        },
-      });
+      getAPI.post(path, obj).then(response => {
+        state.entries = response.data.response;
+      })
+
     },
 
     doAjaxPostDeleteEntry: function (path, obj) {
@@ -253,19 +239,13 @@ export default {
 
       var state = this;
 
-      $.ajax({
-        url: path,
-        headers: { "X-CSRFToken": csrfToken },
-        dataType: "json",
-        data: obj,
-        type: "post",
-        success: function (response) {
-          let index = state.entries.findIndex(
-            (item) => item["id"] == obj["id"]
-          );
-          state.entries.splice(index, 1);
-        },
-      });
+      getAPI.post(path, obj).then(response => {
+        let index = state.entries.findIndex(
+          (item) => item["id"] == obj["id"]
+        );
+        state.entries.splice(index, 1);
+      })
+      
     },
 
     checkMasterPassword: function (e) {
