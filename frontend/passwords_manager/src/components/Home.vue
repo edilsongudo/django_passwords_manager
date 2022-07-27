@@ -123,7 +123,7 @@
 
 <script>
 import swal from 'sweetalert';
-import { getAPI } from "../axios-api";
+import getAPI from "../axios-api";
 export default {
   data() {
     return {

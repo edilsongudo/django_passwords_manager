@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getAPI } from "../axios-api";
+import getAPI from "../axios-api";
 export default {
   name: "register",
   data() {

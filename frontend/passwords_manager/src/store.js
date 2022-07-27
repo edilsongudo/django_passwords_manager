@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import { createStore } from "vuex";
-import { getAPI } from "./axios-api";
+import getAPI from "./axios-api";
 
 // Create a new store instance.
 const store = createStore({
