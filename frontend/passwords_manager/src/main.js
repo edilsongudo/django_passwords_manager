@@ -5,6 +5,10 @@ import router from "./router";
 
 import "./assets/main.css";
 
+import setupInterceptors from './services/setupInterceptors';
+
+setupInterceptors(store)
+
 const app = createApp(App);
 
 router.beforeEach((to, from, next) => {
