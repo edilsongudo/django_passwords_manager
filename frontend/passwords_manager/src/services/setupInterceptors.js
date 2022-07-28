@@ -1,12 +1,24 @@
 import getAPI from "../axios-api";
+import jwt_decode from "jwt-decode";
+import dayjs from "dayjs";
 
-const setup = (store) => {
+const setup = (store, router) => {
 
   getAPI.interceptors.request.use(
   (config) => {
     let token = localStorage.getItem('accessToken');
 
     if (token) {
+
+      const user = jwt_decode(localStorage.getItem('refreshToken'))
+      const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1
+
+      if (isExpired) {
+        store.dispatch("userLogout").then(() => {
+          router.push({ name: "login" });
+        });
+      }
+
       config.headers['Authorization'] = `Bearer ${ token }`;
     }
 

@@ -7,7 +7,7 @@ import "./assets/main.css";
 
 import setupInterceptors from './services/setupInterceptors';
 
-setupInterceptors(store)
+setupInterceptors(store, router)
 
 const app = createApp(App);
 
