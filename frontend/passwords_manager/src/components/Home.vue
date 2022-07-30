@@ -1,3 +1,182 @@
+<script>
+import swal from 'sweetalert';
+import getAPI from "../axios-api";
+export default {
+  data() {
+    return {
+      authenticated: false,
+      masterpassword: false,
+      message: false,
+      show_list: true,
+      entrysite: "",
+      entrypassword: "",
+      entryemail: "",
+      entries: [],
+    };
+  },
+
+  methods: {
+    oninput: function (e) {
+      if (e.target.value != "") {
+        e.target.classList.add("secret");
+      } else {
+        e.target.classList.remove("secret");
+      }
+    },
+
+    checkinativity: function () {
+      var idleTime = 0;
+      var state = this;
+      $(document).ready(function () {
+        // Increment the idle time counter every minute.
+        var idleInterval = setInterval(timerIncrement, 1000); // 1 second
+
+        // Reset the idle timer on user interaction
+        $(this).mousemove(function (e) {
+          idleTime = 0;
+        });
+        $(this).keypress(function (e) {
+          idleTime = 0;
+        });
+        $(this).scroll(function (e) {
+          idleTime = 0;
+        });
+      });
+
+      function timerIncrement() {
+        if (state.authenticated) {
+          idleTime = idleTime + 1;
+        }
+        let maximumInativitySecondsAllowed = 60 * 2;
+        if (idleTime > maximumInativitySecondsAllowed) {
+          state.authenticated = false;
+          state.masterpassword = false;
+          state.entries = [];
+          swal(`Your were deauthenticated due to inativity.`);
+          idleTime = 0;
+        }
+      }
+    },
+
+    show_alert: function (state, obj, timeout) {
+      state.message = obj;
+      setTimeout(function () {
+        state.message = false;
+      }, timeout);
+    },
+
+    sendPostRequest(path, obj, callback) {
+      getAPI.post(path, obj).then(callback)
+    },
+
+    doAjaxPostMasterPassword(path, obj) {
+      this.sendPostRequest(path, obj, response=> {
+        if (response.data.is_masterpass_correct === true) {
+          this.entries = response.data.response;
+          this.authenticated = true;
+          this.masterpassword = obj["masterpassword"];
+        } else {
+          swal("Your master password is wrong. Try Again");
+        }
+      })
+    },
+
+    doAjaxPostNewEntry(path, obj) {
+      this.sendPostRequest(path, obj, response=> {
+        if (response.data.status == "ok") {
+          this.entrysite = "";
+          this.entryemail = "";
+          this.entrypassword = "";
+          swal("Entry Successfully Created");
+        } else {
+          let message = response.data.errors;
+          swal("Please all ensure all fields have at maximum 70 chars");
+        }
+      })
+    },
+
+    doAjaxPostrequestEntries: function (path, obj) {
+      this.sendPostRequest(path, obj, response=> {
+        this.entries = response.data.response;
+      })
+    },
+
+    doAjaxPostDeleteEntry: function (path, obj) {
+      this.sendPostRequest(path, obj, response=> {
+        let index = this.entries.findIndex(
+          (item) => item["id"] == obj["id"]
+        );
+        this.entries.splice(index, 1);
+      })
+    },
+
+    checkMasterPassword: function (e) {
+      e.preventDefault();
+      let masterpass = document.querySelector("#masterpassword");
+      this.doAjaxPostMasterPassword("", {
+        masterpassword: masterpass.value.trim(),
+      });
+    },
+
+    listentries: function () {
+      if (this.show_list) {
+        this.show_list = false;
+      } else {
+        this.show_list = true;
+        this.doAjaxPostrequestEntries("", {
+          masterpassword: this.masterpassword.trim(),
+        });
+      }
+    },
+
+    addNewEntry: function (e) {
+      e.preventDefault();
+      if (
+        this.entrysite.trim() != "" &&
+        this.entryemail.trim() != "" &&
+        this.entrypassword.trim() != ""
+      ) {
+        let postData = {
+          entrysite: this.entrysite.trim(),
+          entryemail: this.entryemail.trim(),
+          entrypassword: this.entrypassword.trim(),
+          masterpassword: this.masterpassword.trim(),
+        };
+        this.doAjaxPostNewEntry("/new/", postData);
+      } else {
+        // swal("Plese, fill all the fields")
+        this.show_alert(
+          this,
+          {
+            message: "Plese, fill all the fields",
+            class: "alert alert-danger",
+          },
+          3000
+        );
+      }
+    },
+
+    deleteEntry: function (e) {
+      const id = e[0][0];
+      swal({
+        text: "Are you sure you want to delete?",
+        buttons: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          this.doAjaxPostDeleteEntry("/delete/", { id: id });
+        } else {
+        }
+      });
+    },
+  },
+
+  created() {
+    this.checkinativity();
+  },
+};
+</script>
+
+
 <template>
   <div class="container">
     <div class="fullwidth">
@@ -121,197 +300,5 @@
   </div>
 </template>
 
-<script>
-import swal from 'sweetalert';
-import getAPI from "../axios-api";
-export default {
-  data() {
-    return {
-      authenticated: false,
-      masterpassword: false,
-      message: false,
-      show_list: true,
-      entrysite: "",
-      entrypassword: "",
-      entryemail: "",
-      entries: [],
-    };
-  },
-
-  methods: {
-    oninput: function (e) {
-      if (e.target.value != "") {
-        e.target.classList.add("secret");
-      } else {
-        e.target.classList.remove("secret");
-      }
-    },
-
-    checkinativity: function () {
-      var idleTime = 0;
-      var state = this;
-      $(document).ready(function () {
-        // Increment the idle time counter every minute.
-        var idleInterval = setInterval(timerIncrement, 1000); // 1 second
-
-        // Reset the idle timer on user interaction
-        $(this).mousemove(function (e) {
-          idleTime = 0;
-        });
-        $(this).keypress(function (e) {
-          idleTime = 0;
-        });
-        $(this).scroll(function (e) {
-          idleTime = 0;
-        });
-      });
-
-      function timerIncrement() {
-        if (state.authenticated) {
-          idleTime = idleTime + 1;
-        }
-        let maximumInativitySecondsAllowed = 60 * 2;
-        if (idleTime > maximumInativitySecondsAllowed) {
-          state.authenticated = false;
-          state.masterpassword = false;
-          state.entries = [];
-          swal(`Your were deauthenticated due to inativity.`);
-          idleTime = 0;
-        }
-      }
-    },
-
-    show_alert: function (state, obj, timeout) {
-      state.message = obj;
-      setTimeout(function () {
-        state.message = false;
-      }, timeout);
-    },
-
-    doAjaxPostMasterPassword: function (path, obj) {
-      let data = JSON.stringify(obj);
-
-      var state = this;
-
-      getAPI.post(path, obj).then(response => {
-        if (response.data.is_masterpass_correct === true) {
-          state.entries = response.data.response;
-          state.authenticated = true;
-          state.masterpassword = obj["masterpassword"];
-        } else {
-          swal("Your master password is wrong. Try Again");
-        }
-      })
-    },
-
-    doAjaxPostNewEntry: function (path, obj) {
-      let data = JSON.stringify(obj);
-
-      var state = this;
-
-      getAPI.post(path, obj).then(response => {
-        if (response.data.status == "ok") {
-          state.entrysite = "";
-          state.entryemail = "";
-          state.entrypassword = "";
-          swal("Entry Successfully Created");
-        } else {
-          let message = response.data.errors;
-          swal("Please all ensure all fields have at maximum 70 chars");
-        }
-      })
-
-    },
-
-    doAjaxPostrequestEntries: function (path, obj) {
-      let data = JSON.stringify(obj);
-
-      var state = this;
-
-      getAPI.post(path, obj).then(response => {
-        state.entries = response.data.response;
-      })
-
-    },
-
-    doAjaxPostDeleteEntry: function (path, obj) {
-      let data = JSON.stringify(obj);
-
-      var state = this;
-
-      getAPI.post(path, obj).then(response => {
-        let index = state.entries.findIndex(
-          (item) => item["id"] == obj["id"]
-        );
-        state.entries.splice(index, 1);
-      })
-      
-    },
-
-    checkMasterPassword: function (e) {
-      e.preventDefault();
-      let masterpass = document.querySelector("#masterpassword");
-      this.doAjaxPostMasterPassword("", {
-        masterpassword: masterpass.value.trim(),
-      });
-    },
-
-    listentries: function () {
-      if (this.show_list) {
-        this.show_list = false;
-      } else {
-        this.show_list = true;
-        this.doAjaxPostrequestEntries("", {
-          masterpassword: this.masterpassword.trim(),
-        });
-      }
-    },
-
-    addNewEntry: function (e) {
-      e.preventDefault();
-      if (
-        this.entrysite.trim() != "" &&
-        this.entryemail.trim() != "" &&
-        this.entrypassword.trim() != ""
-      ) {
-        let postData = {
-          entrysite: this.entrysite.trim(),
-          entryemail: this.entryemail.trim(),
-          entrypassword: this.entrypassword.trim(),
-          masterpassword: this.masterpassword.trim(),
-        };
-        this.doAjaxPostNewEntry("/new/", postData);
-      } else {
-        // swal("Plese, fill all the fields")
-        this.show_alert(
-          this,
-          {
-            message: "Plese, fill all the fields",
-            class: "alert alert-danger",
-          },
-          3000
-        );
-      }
-    },
-
-    deleteEntry: function (e) {
-      const id = e[0][0];
-      swal({
-        text: "Are you sure you want to delete?",
-        buttons: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          this.doAjaxPostDeleteEntry("/delete/", { id: id });
-        } else {
-        }
-      });
-    },
-  },
-
-  created() {
-    this.checkinativity();
-  },
-};
-</script>
 
 <style></style>
