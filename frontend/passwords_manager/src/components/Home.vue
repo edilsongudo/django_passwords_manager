@@ -1,7 +1,23 @@
 <script>
 import swal from 'sweetalert';
 import getAPI from "../axios-api";
+import IdleJs from 'idle-js';
+
 export default {
+  created() {
+    var state = this
+    var idle = new IdleJs({
+      idle: 30000, // idle time in ms
+      onIdle: function () {
+        state.authenticated = false;
+        state.masterpassword = false;
+        state.entries = [];
+        swal(`Your were deauthenticated due to inativity.`);
+      },
+    });
+    idle.start();
+  },
+
   data() {
     return {
       authenticated: false,
@@ -16,47 +32,6 @@ export default {
   },
 
   methods: {
-    oninput: function (e) {
-      if (e.target.value != "") {
-        e.target.classList.add("secret");
-      } else {
-        e.target.classList.remove("secret");
-      }
-    },
-
-    checkinativity: function () {
-      var idleTime = 0;
-      var state = this;
-      $(document).ready(function () {
-        // Increment the idle time counter every minute.
-        var idleInterval = setInterval(timerIncrement, 1000); // 1 second
-
-        // Reset the idle timer on user interaction
-        $(this).mousemove(function (e) {
-          idleTime = 0;
-        });
-        $(this).keypress(function (e) {
-          idleTime = 0;
-        });
-        $(this).scroll(function (e) {
-          idleTime = 0;
-        });
-      });
-
-      function timerIncrement() {
-        if (state.authenticated) {
-          idleTime = idleTime + 1;
-        }
-        let maximumInativitySecondsAllowed = 60 * 2;
-        if (idleTime > maximumInativitySecondsAllowed) {
-          state.authenticated = false;
-          state.masterpassword = false;
-          state.entries = [];
-          swal(`Your were deauthenticated due to inativity.`);
-          idleTime = 0;
-        }
-      }
-    },
 
     show_alert: function (state, obj, timeout) {
       state.message = obj;
@@ -69,7 +44,10 @@ export default {
       getAPI.post(path, obj).then(callback)
     },
 
-    doAjaxPostMasterPassword(path, obj) {
+    checkMasterPassword() {
+      const masterpass = document.querySelector("#masterpassword");
+      const obj = {masterpassword: masterpass.value.trim()};
+      const path = ""
       this.sendPostRequest(path, obj, response=> {
         if (response.data.is_masterpass_correct === true) {
           this.entries = response.data.response;
@@ -79,70 +57,47 @@ export default {
           swal("Your master password is wrong. Try Again");
         }
       })
+      masterpass.value = ""
     },
 
-    doAjaxPostNewEntry(path, obj) {
-      this.sendPostRequest(path, obj, response=> {
-        if (response.data.status == "ok") {
-          this.entrysite = "";
-          this.entryemail = "";
-          this.entrypassword = "";
-          swal("Entry Successfully Created");
-        } else {
-          let message = response.data.errors;
-          swal("Please all ensure all fields have at maximum 70 chars");
-        }
-      })
-    },
-
-    doAjaxPostrequestEntries: function (path, obj) {
-      this.sendPostRequest(path, obj, response=> {
-        this.entries = response.data.response;
-      })
-    },
-
-    doAjaxPostDeleteEntry: function (path, obj) {
-      this.sendPostRequest(path, obj, response=> {
-        let index = this.entries.findIndex(
-          (item) => item["id"] == obj["id"]
-        );
-        this.entries.splice(index, 1);
-      })
-    },
-
-    checkMasterPassword: function (e) {
-      e.preventDefault();
-      let masterpass = document.querySelector("#masterpassword");
-      this.doAjaxPostMasterPassword("", {
-        masterpassword: masterpass.value.trim(),
-      });
-    },
-
-    listentries: function () {
+    listentries() {
       if (this.show_list) {
         this.show_list = false;
       } else {
         this.show_list = true;
-        this.doAjaxPostrequestEntries("", {
-          masterpassword: this.masterpassword.trim(),
-        });
+        const path = ""
+        const obj = { masterpassword: this.masterpassword.trim() }
+        this.sendPostRequest(path, obj, response=> {
+          this.entries = response.data.response;
+        })
       }
     },
 
-    addNewEntry: function (e) {
+    addNewEntry(e) {
       e.preventDefault();
       if (
         this.entrysite.trim() != "" &&
         this.entryemail.trim() != "" &&
         this.entrypassword.trim() != ""
       ) {
-        let postData = {
+        const path = "/new/";
+        const obj = {
           entrysite: this.entrysite.trim(),
           entryemail: this.entryemail.trim(),
           entrypassword: this.entrypassword.trim(),
           masterpassword: this.masterpassword.trim(),
-        };
-        this.doAjaxPostNewEntry("/new/", postData);
+        }
+        this.sendPostRequest(path, obj, response=> {
+          if (response.data.status == "ok") {
+            this.entrysite = "";
+            this.entryemail = "";
+            this.entrypassword = "";
+            swal("Entry Successfully Created");
+          } else {
+            let message = response.data.errors;
+            swal("Please all ensure all fields have at maximum 70 chars");
+          }
+        })
       } else {
         // swal("Plese, fill all the fields")
         this.show_alert(
@@ -156,23 +111,27 @@ export default {
       }
     },
 
-    deleteEntry: function (e) {
+    deleteEntry(e) {
       const id = e[0][0];
       swal({
         text: "Are you sure you want to delete?",
         buttons: true,
       }).then((willDelete) => {
         if (willDelete) {
-          this.doAjaxPostDeleteEntry("/delete/", { id: id });
+          const path = "/delete/";
+          const obj = { id: id };
+          this.sendPostRequest(path, obj, response=> {
+            const index = this.entries.findIndex(
+              (item) => item["id"] == obj["id"]
+            );
+            this.entries.splice(index, 1);
+          })
         } else {
         }
       });
     },
   },
 
-  created() {
-    this.checkinativity();
-  },
 };
 </script>
 
@@ -284,14 +243,14 @@ export default {
             placeholder="master password"
             autofocus
             id="masterpassword"
-            class="textinput textInput form-control"
+            class="textinput textInput form-control secret"
             type="text"
             name="master"
             value=""
           />
         </div>
         <div>
-          <button class="cta cta1" type="submit" @click="checkMasterPassword">
+          <button class="cta cta1" @click="checkMasterPassword">
             Unlock <i class="fal fa-key"></i>
           </button>
         </div>

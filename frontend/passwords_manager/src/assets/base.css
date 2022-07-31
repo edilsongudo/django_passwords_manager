@@ -26,6 +26,10 @@
   font-family: "password";
 }
 
+.secret::placeholder {
+  font-family: Averta;
+}
+
 body {
   background: linear-gradient(90deg, var(--bgcolor1), var(--bgcolor2));
   color: var(--bodytext);

@@ -1,16 +1,5 @@
 <script>
 import { RouterLink, RouterView } from "vue-router";
-import IdleJs from 'idle-js';
-
-export default {
-  setup() {
-    var idle = new IdleJs({
-      idle: 10000, // idle time in ms
-      onIdle: function () {console.log('Hello World')},
-    });
-    idle.start();
-  }
-};
 </script>
 
 <template>
