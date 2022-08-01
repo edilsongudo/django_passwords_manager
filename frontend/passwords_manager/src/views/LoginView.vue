@@ -50,9 +50,9 @@ export default {
           password: this.password,
         })
         .then(() => {
-          const searchParams = new URLSearchParams(window.location.search)
+          const searchParams = new URLSearchParams(window.location.search);
           if (searchParams.has("redirect")) {
-            this.$router.push({path: `${searchParams.get("redirect")}`})
+            this.$router.push({ path: `${searchParams.get("redirect")}` });
           } else {
             this.$router.push({ name: "home" });
           }
