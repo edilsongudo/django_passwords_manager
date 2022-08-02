@@ -119,10 +119,8 @@ export default {
           </button>
         </div>
       </div>
-      
     </div>
   </div>
 </template>
 
 <style></style>
-

@@ -1,5 +1,16 @@
+<script>
+import store from "../store/";
+export default {
+  computed: {
+    isloggedIn: function () {
+      return this.$store.getters.loggedIn;
+    },
+  },
+};
+</script>
+
 <template>
-  <div class="bottom-nav">
+  <div v-if="isloggedIn" class="bottom-nav">
     <div id="home" class="">
       <router-link :to="{ name: 'home' }"
         ><i class="fal fa-home"></i

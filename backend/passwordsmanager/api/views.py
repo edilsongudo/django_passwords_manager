@@ -3,6 +3,7 @@ import json
 from cryptography.fernet import InvalidToken
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 
 from passmanager.forms import *
 from passmanager.models import *
@@ -77,8 +78,11 @@ def newEntry(request):
             'encrypted_password': encrypted_password,
         }
 
-        return Response(response)
-    return Response({'status': 'fail', 'errors': form.errors})
+        return Response(response, status=status.HTTP_201_CREATED)
+    return Response(
+        {'status': 'fail', 'errors': form.errors},
+        status=status.HTTP_400_BAD_REQUEST,
+    )
 
 
 @api_view(['POST'])
@@ -93,9 +97,48 @@ def deleteEntry(request):
 
 
 @api_view(['GET'])
-def has_user_defined_a_master_password(request):
+def hasDefinedMasterPassword(request):
     return Response(
         {
             'has_user_defined_a_master_password': request.user.masterpassword.has_defined_a_master_password
         }
     )
+
+
+@api_view(['POST'])
+def newMaster(request):
+
+    if request.user.masterpassword.has_defined_a_master_password:
+        return Response(
+            {'message': 'User already defined a master password'},
+            status=status.HTTP_403_FORBIDDEN
+        )
+
+    data = json.loads(request.body.decode('utf-8'))
+    form = MasterCreateForm(data, user=request.user)
+
+    if form.is_valid():
+        master = form.cleaned_data['master']
+        master_confirm = form.cleaned_data['master_confirm']
+
+        master_key = generate_key(master, request.user.masterpassword.salt)
+        site_name = secrets.token_urlsafe()
+        email_used = encrypt(message=secrets.token_urlsafe(), key=master_key)
+        encrypted_password = encrypt(
+            message=secrets.token_urlsafe(), key=master_key
+        )
+
+        entries = Entry.objects.create(
+            author=request.user,
+            site_name=site_name,
+            site_email_used=email_used,
+            site_password_used=encrypted_password,
+            is_generated_for_initial_master_pw_check=True,
+        )
+
+        request.user.masterpassword.has_defined_a_master_password = True
+        request.user.masterpassword.save()
+
+        return Response({'message': 'created'}, status=status.HTTP_201_CREATED)
+
+    return Response({'message': 'fail'}, status=status.HTTP_400_BAD_REQUEST)
