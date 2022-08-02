@@ -1,6 +1,5 @@
 <script>
 import swal from "sweetalert";
-import getAPI from "../axios-api";
 export default {
   props: {
     masterpassword: {
@@ -19,7 +18,7 @@ export default {
 
   methods: {
     sendPostRequest(path, obj, callback) {
-      getAPI.post(path, obj).then(callback);
+      this.$axios.post(path, obj).then(callback);
     },
 
     addNewEntry(e) {

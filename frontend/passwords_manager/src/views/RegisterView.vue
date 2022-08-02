@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import getAPI from "../axios-api";
 export default {
   name: "register",
   data() {
@@ -41,7 +40,7 @@ export default {
   },
   methods: {
     register() {
-      getAPI
+      this.$axios
         .post("auth/users/", {
           username: this.username,
           password: this.password,

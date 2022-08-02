@@ -1,6 +1,5 @@
-import { createApp } from "vue";
 import { createStore } from "vuex";
-import getAPI from "./axios-api";
+import { axiosIntance } from "../globals.js"
 
 // Create a new store instance.
 const store = createStore({
@@ -38,7 +37,7 @@ const store = createStore({
     },
     userLogin(context, usercredentials) {
       return new Promise((resolve, reject) => {
-        getAPI
+        axiosIntance
           .post("auth/jwt/create/", {
             username: usercredentials.username,
             password: usercredentials.password,

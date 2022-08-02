@@ -1,9 +1,9 @@
-import getAPI from "../axios-api";
+import { axiosIntance } from "../globals.js";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 
 const setup = (store, router) => {
-  getAPI.interceptors.request.use(
+  axiosIntance.interceptors.request.use(
     (config) => {
       let token = localStorage.getItem("accessToken");
 
@@ -28,7 +28,7 @@ const setup = (store, router) => {
     }
   );
 
-  getAPI.interceptors.response.use(
+  axiosIntance.interceptors.response.use(
     (config) => {
       return config;
     },
@@ -41,7 +41,7 @@ const setup = (store, router) => {
           const refreshToken = localStorage.getItem("refreshToken");
 
           try {
-            const rs = await getAPI.post("auth/jwt/refresh/", {
+            const rs = await axiosIntance.post("auth/jwt/refresh/", {
               refresh: refreshToken,
             });
 
@@ -53,7 +53,7 @@ const setup = (store, router) => {
           } catch (_error) {
             return Promise.reject(_error);
           }
-          return getAPI(originalConfig);
+          return axiosIntance(originalConfig);
         }
       }
       return Promise.reject(error);

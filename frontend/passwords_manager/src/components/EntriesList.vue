@@ -1,6 +1,5 @@
 <script>
 import swal from "sweetalert";
-import getAPI from "../axios-api";
 export default {
   props: {
     entries: {
@@ -14,7 +13,7 @@ export default {
   },
   methods: {
     sendPostRequest(path, obj, callback) {
-      getAPI.post(path, obj).then(callback);
+      this.$axios.post(path, obj).then(callback);
     },
 
     deleteEntry(e) {

@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import store from "./store";
 import router from "./router";
+import { axiosIntance } from './globals.js'
 
 import "./assets/main.css";
 
@@ -25,5 +26,7 @@ router.beforeEach((to, from, next) => {
 
 app.use(router);
 app.use(store);
+
+app.config.globalProperties.$axios = axiosIntance;
 
 app.mount("#app");
