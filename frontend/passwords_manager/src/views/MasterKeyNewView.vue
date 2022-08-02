@@ -22,7 +22,6 @@
         </div>
         <div class="form-group">
           <input
-            autofocus
             autocomplete="off"
             type="text"
             name="master_confirm"

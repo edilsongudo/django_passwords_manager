@@ -5,10 +5,11 @@ import dayjs from "dayjs";
 const setup = (store, router) => {
   axiosInstance.interceptors.request.use(
     (config) => {
-      let token = localStorage.getItem("accessToken");
+      let token = localStorage.getItem("Token");
 
       if (token) {
-        const user = jwt_decode(localStorage.getItem("refreshToken"));
+        token = JSON.parse(token);
+        const user = jwt_decode(token.refresh);
         const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
 
         if (isExpired) {
@@ -17,7 +18,7 @@ const setup = (store, router) => {
           });
         }
 
-        config.headers["Authorization"] = `Bearer ${token}`;
+        config.headers["Authorization"] = `Bearer ${token.access}`;
       }
 
       return config;
@@ -38,18 +39,19 @@ const setup = (store, router) => {
       console.log(originalConfig.url);
       if (error.response) {
         if (originalConfig.url !== "/login" && error.response.status === 401) {
-          const refreshToken = localStorage.getItem("refreshToken");
+          let token = localStorage.getItem("Token");
+          if (token) {
+            token = JSON.parse(token);
+          }
 
           try {
             const rs = await axiosInstance.post("auth/jwt/refresh/", {
-              refresh: refreshToken,
+              refresh: token.refresh,
             });
 
             const { access } = rs.data;
-            store.commit("updateStorage", {
-              access: access,
-              refresh: localStorage.getItem("refreshToken"),
-            });
+            token.access = access;
+            store.commit("updateStorage", token);
           } catch (_error) {
             return Promise.reject(_error);
           }

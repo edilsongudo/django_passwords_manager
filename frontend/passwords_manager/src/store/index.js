@@ -5,28 +5,23 @@ import { axiosInstance } from "../globals.js";
 const store = createStore({
   state() {
     return {
-      accessToken: localStorage.getItem("accessToken"),
-      refreshToken: localStorage.getItem("refreshToken"),
+      Token: JSON.parse(localStorage.getItem("Token")),
       APIData: "",
     };
   },
   mutations: {
-    updateStorage(state, { access, refresh }) {
-      state.accessToken = access;
-      state.refreshToken = refresh;
-      localStorage.setItem("accessToken", access);
-      localStorage.setItem("refreshToken", refresh);
+    updateStorage(state, data) {
+      state.Token = data;
+      localStorage.setItem("Token", JSON.stringify(data));
     },
     destroyToken(state) {
-      state.accessToken = null;
-      state.refreshToken = null;
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+      state.Token = null;
+      localStorage.removeItem("Token");
     },
   },
   getters: {
     loggedIn(state) {
-      return state.accessToken != null;
+      return state.Token != null;
     },
   },
   actions: {
@@ -43,10 +38,7 @@ const store = createStore({
             password: usercredentials.password,
           })
           .then((response) => {
-            context.commit("updateStorage", {
-              access: response.data.access,
-              refresh: response.data.refresh,
-            });
+            context.commit("updateStorage", response.data);
             resolve();
           })
           .catch((err) => {

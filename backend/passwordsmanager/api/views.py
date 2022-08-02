@@ -17,10 +17,7 @@ def getEntries(request):
     key = generate_key(masterpassword, request.user.masterpassword.salt)
 
     response = []
-    entries = Entry.objects.filter(author=request.user).exclude(
-        is_generated_for_initial_master_pw_check=True
-    )
-
+    entries = Entry.objects.filter(author=request.user)
     for entry in entries:
         try:
             entry_email = decrypt(
@@ -32,20 +29,20 @@ def getEntries(request):
                 key=key.encode(),
             )
 
-            response.append(
-                {
-                    'id': entry.pk,
-                    'site': entry.site_name,
-                    'email': entry_email,
-                    'encrypted_password': entry.site_password_used,
-                    'decrypted_password': entry_password,
-                }
-            )
+            if not entry.is_generated_for_initial_master_pw_check:
+                response.append(
+                    {
+                        'id': entry.pk,
+                        'site': entry.site_name,
+                        'email': entry_email,
+                        'encrypted_password': entry.site_password_used,
+                        'decrypted_password': entry_password,
+                    }
+                )
         except InvalidToken:
             return Response(
                 {'response': response, 'is_masterpass_correct': False}
             )
-
     return Response({'response': response, 'is_masterpass_correct': True})
 
 
@@ -111,7 +108,7 @@ def newMaster(request):
     if request.user.masterpassword.has_defined_a_master_password:
         return Response(
             {'message': 'User already defined a master password'},
-            status=status.HTTP_403_FORBIDDEN
+            status=status.HTTP_403_FORBIDDEN,
         )
 
     data = json.loads(request.body.decode('utf-8'))
