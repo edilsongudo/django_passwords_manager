@@ -90,3 +90,12 @@ def deleteEntry(request):
         entry.delete()
         return Response({'response': 'ok'})
     return Response({'response': 'fail'})
+
+
+@api_view(['GET'])
+def has_user_defined_a_master_password(request):
+    return Response(
+        {
+            'has_user_defined_a_master_password': request.user.masterpassword.has_defined_a_master_password
+        }
+    )

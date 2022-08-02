@@ -11,7 +11,7 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
-      meta: { requiresLogin: true },
+      meta: { requiresLogin: true, requiresMasterKey: true },
     },
     {
       path: "/login/",
