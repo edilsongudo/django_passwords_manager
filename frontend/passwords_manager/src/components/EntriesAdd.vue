@@ -28,7 +28,7 @@ export default {
         this.entryemail.trim() != "" &&
         this.entrypassword.trim() != ""
       ) {
-        const path = "/new/";
+        const path = "/entries/new/";
         const obj = {
           entrysite: this.entrysite.trim(),
           entryemail: this.entryemail.trim(),

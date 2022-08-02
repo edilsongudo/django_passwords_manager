@@ -40,7 +40,7 @@ export default {
     checkMasterPassword() {
       const masterpass = document.querySelector("#masterpassword");
       const obj = { masterpassword: masterpass.value.trim() };
-      const path = "/";
+      const path = "entries/";
       this.sendPostRequest(path, obj, (response) => {
         if (response.data.is_masterpass_correct === true) {
           this.entries = response.data.response;
@@ -53,12 +53,12 @@ export default {
       masterpass.value = "";
     },
 
-    EntriesList() {
+    toggleList() {
       if (this.show_list) {
         this.show_list = false;
       } else {
         this.show_list = true;
-        const path = "";
+        const path = "entries/";
         const obj = { masterpassword: this.masterpassword.trim() };
         this.sendPostRequest(path, obj, (response) => {
           this.entries = response.data.response;
@@ -75,14 +75,14 @@ export default {
       <div class="quick-action">
         <button
           v-if="authenticated && !show_list"
-          @click="EntriesList"
+          @click="toggleList"
           class="shortcut"
         >
           <i class="fal fa-list"></i>
         </button>
         <button
           v-if="authenticated && show_list"
-          @click="EntriesList"
+          @click="toggleList"
           class="shortcut"
         >
           <i class="fal fa-plus"></i>

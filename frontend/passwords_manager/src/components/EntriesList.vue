@@ -16,14 +16,13 @@ export default {
       this.$axios.post(path, obj).then(callback);
     },
 
-    deleteEntry(e) {
-      const id = e[0][0];
+    deleteEntry(id) {
       swal({
         text: "Are you sure you want to delete?",
         buttons: true,
       }).then((willDelete) => {
         if (willDelete) {
-          const path = "/delete/";
+          const path = "/entries/delete/";
           const obj = { id: id };
           this.sendPostRequest(path, obj, (response) => {
             const index = this.entries.findIndex(
