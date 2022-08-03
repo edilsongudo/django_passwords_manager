@@ -1,9 +1,9 @@
 import json
 
 from cryptography.fernet import InvalidToken
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
 
 from passmanager.forms import *
 from passmanager.models import *
@@ -139,3 +139,72 @@ def newMaster(request):
         return Response({'message': 'created'}, status=status.HTTP_201_CREATED)
 
     return Response({'message': 'fail'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def editMaster(request):
+    if not request.user.masterpassword.has_defined_a_master_password:
+        return Response(
+            {'message': 'You need to create a master password first'},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+    data = json.loads(request.body.decode('utf-8'))
+    form = MasterPasswordForm(data, user=request.user)
+
+    if form.is_valid():
+
+        key = form.cleaned_data['master']
+        key_confirm = form.cleaned_data['master_confirm']
+
+        if key != key_confirm:
+            return Response(
+                {
+                    'message': 'Fields New master and New master confirm do not match'
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        last_master = form.cleaned_data['last_master']
+        last_key = generate_key(last_master, request.user.masterpassword.salt)
+        new_key = generate_key(key, request.user.masterpassword.salt)
+
+        entries = Entry.objects.filter(author=request.user)
+
+        try:
+            for entry in entries:
+
+                site_email_used = decrypt(
+                    encrypted=entry.site_email_used.encode(),
+                    key=last_key.encode(),
+                )
+                entry.site_email_used = encrypt(
+                    message=site_email_used, key=new_key.encode()
+                )
+
+                site_password_used = decrypt(
+                    encrypted=entry.site_password_used.encode(),
+                    key=last_key.encode(),
+                )
+                entry.site_password_used = encrypt(
+                    message=site_password_used, key=new_key.encode()
+                )
+                entry.save()
+
+            return Response(
+                {'message': 'Your Master Password was successfully edited.'}
+            )
+
+        except InvalidToken:
+            return Response(
+                {'message': 'The last master password you typed is wrong'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    return Response({'message': 'fail'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def generate_password(request):
+    password = generate_secure_password()
+    return Response({'password': password})

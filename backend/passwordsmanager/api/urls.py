@@ -12,6 +12,8 @@ urlpatterns = [
     path('entries/delete/', views.deleteEntry),
     path('master-key/status/', views.hasDefinedMasterPassword),
     path('master-key/new/', views.newMaster),
+    path('master-key/edit/', views.editMaster),
+    path('password/generator/', views.generate_password),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

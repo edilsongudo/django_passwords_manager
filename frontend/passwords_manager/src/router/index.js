@@ -4,6 +4,10 @@ import LoginView from "../views/LoginView.vue";
 import LogoutView from "../views/LogoutView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import MasterKeyNewView from "../views/MasterKeyNewView.vue";
+import MasterKeyEditView from "../views/MasterKeyEditView.vue";
+import PasswordGeneratorView from "../views/PasswordGeneratorView.vue";
+import InfoView from "../views/InfoView.vue";
+import SettingsView from "../views/SettingsView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +22,30 @@ const router = createRouter({
       path: "/master-key/new/",
       name: "master-new",
       component: MasterKeyNewView,
+      meta: { requiresLogin: true },
+    },
+    {
+      path: "/master-key/edit/",
+      name: "master-edit",
+      component: MasterKeyEditView,
+      meta: { requiresLogin: true },
+    },
+    {
+      path: "/password/generator/",
+      name: "password-generator",
+      component: PasswordGeneratorView,
+      meta: { requiresLogin: true },
+    },
+    {
+      path: "/info/",
+      name: "info",
+      component: InfoView,
+      meta: { requiresLogin: true },
+    },
+    {
+      path: "/settings/",
+      name: "settings",
+      component: SettingsView,
       meta: { requiresLogin: true },
     },
     {
