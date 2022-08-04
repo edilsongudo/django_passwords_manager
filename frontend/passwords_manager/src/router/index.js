@@ -8,6 +8,7 @@ import MasterKeyEditView from "../views/MasterKeyEditView.vue";
 import PasswordGeneratorView from "../views/PasswordGeneratorView.vue";
 import InfoView from "../views/InfoView.vue";
 import SettingsView from "../views/SettingsView.vue";
+import UserEmailChange from "../views/UserEmailChange.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -62,6 +63,11 @@ const router = createRouter({
       path: "/register/",
       name: "register",
       component: RegisterView,
+    },
+    {
+      path: "/user/email/change/",
+      name: "email-change",
+      component: UserEmailChange,
     },
   ],
 });

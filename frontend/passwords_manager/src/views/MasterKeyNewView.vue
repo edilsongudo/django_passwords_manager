@@ -15,7 +15,7 @@
             name="master"
             id="id_master"
             v-model="master"
-            class="textinput textInput form-control"
+            class="textinput textInput form-control secret"
             placeholder="Define a new master password"
             maxlength="70"
           />
@@ -27,7 +27,7 @@
             name="master_confirm"
             id="pass"
             v-model="master_confirm"
-            class="textinput textInput form-control"
+            class="textinput textInput form-control secret"
             placeholder="Confirm your new master password"
             maxlength="70"
           />

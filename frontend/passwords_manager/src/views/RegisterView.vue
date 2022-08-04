@@ -24,6 +24,11 @@
           />
         </div>
         <button type="submit" class="cta cta1">Register</button>
+        <div>
+          <router-link :to="{ name: 'login' }">
+            Already have an account?
+          </router-link>
+        </div>
       </form>
     </div>
   </div>

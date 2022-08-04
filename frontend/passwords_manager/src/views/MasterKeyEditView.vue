@@ -49,8 +49,8 @@ export default {
             name="last_master"
             id="id_last_master"
             v-model="last_master"
-            class="textinput textInput form-control"
-            placeholder="Your actual master password"
+            class="textinput textInput form-control secret"
+            placeholder="Your current master password"
             maxlength="70"
           />
         </div>
@@ -62,7 +62,7 @@ export default {
             name="master"
             id="id_master"
             v-model="master"
-            class="textinput textInput form-control"
+            class="textinput textInput form-control secret"
             placeholder="Your new master password"
             maxlength="70"
           />
@@ -74,7 +74,7 @@ export default {
             name="master_confirm"
             id="id_master_confirm"
             v-model="master_confirm"
-            class="textinput textInput form-control"
+            class="textinput textInput form-control secret"
             placeholder="Confirm your new master password"
             maxlength="70"
           />

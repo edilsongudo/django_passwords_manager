@@ -1,6 +1,7 @@
 import json
 
 from cryptography.fernet import InvalidToken
+from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -8,11 +9,12 @@ from rest_framework.response import Response
 from passmanager.forms import *
 from passmanager.models import *
 from passmanager.utils import *
+from .serializers import *
 
 
 @api_view(['POST'])
 def getEntries(request):
-    data = json.loads(request.body.decode('utf-8'))
+    data = request.data
     masterpassword = data['masterpassword']
     key = generate_key(masterpassword, request.user.masterpassword.salt)
 
@@ -48,7 +50,7 @@ def getEntries(request):
 
 @api_view(['POST'])
 def newEntry(request):
-    data = json.loads(request.body.decode('utf-8'))
+    data = request.data
     form = EntryForm(data)
     if form.is_valid():
         site_name = form.cleaned_data['entrysite']
@@ -84,7 +86,7 @@ def newEntry(request):
 
 @api_view(['POST'])
 def deleteEntry(request):
-    data = json.loads(request.body.decode('utf-8'))
+    data = request.data
     pk = data['id']
     entry = Entry.objects.get(pk=pk)
     if entry.author == request.user:
@@ -111,7 +113,7 @@ def newMaster(request):
             status=status.HTTP_403_FORBIDDEN,
         )
 
-    data = json.loads(request.body.decode('utf-8'))
+    data = request.data
     form = MasterCreateForm(data, user=request.user)
 
     if form.is_valid():
@@ -149,7 +151,7 @@ def editMaster(request):
             status=status.HTTP_403_FORBIDDEN,
         )
 
-    data = json.loads(request.body.decode('utf-8'))
+    data = request.data
     form = MasterPasswordForm(data, user=request.user)
 
     if form.is_valid():
@@ -208,3 +210,19 @@ def editMaster(request):
 def generate_password(request):
     password = generate_secure_password()
     return Response({'password': password})
+
+
+@api_view(['POST', 'GET'])
+def user_email_change(request):
+    if request.method == "GET":
+        return Response({'email': request.user.email})
+    user = request.user
+    User = get_user_model()
+    if User.objects.exclude(pk=user.pk).filter(email=request.data['email']).exists():
+        return Response(
+            {'message': 'This email is already vinculated to another user'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    user.email = request.data['email']
+    user.save()
+    return Response({'email': request.user.email})

@@ -43,11 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'passmanager.apps.PassmanagerConfig',
     'django.contrib.sites',
-    # "users.apps.UsersConfig",
-    "allauth",
-    "allauth.account",
-    "allauth.socialaccount",
-    'allauth.socialaccount.providers.google',
     'crispy_forms',
     'corsheaders',
     'rest_framework',
@@ -147,34 +142,16 @@ if DEBUG:
 
 else:
     pass
-    # STATIC_ROOT = '/home/cristiangrey/django_passwords_manager/passwordsmanager/passmanager/static'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# LOGIN_URL = 'login'
-
 # AUTH_USER_MODEL = "users.User"
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
 ]
-
-LOGIN_REDIRECT_URL = "home"
-ACCOUNT_SESSION_REMEMBER = True
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_PRESERVE_USERNAME_CASING = False
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
-# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
-
-MESSAGE_TAGS = {messages.ERROR: 'danger'}
 
 SITE_ID = 1
 
@@ -183,7 +160,8 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:5173',
     ]
 
-# CORS_ORIGIN_ALLOW_ALL = True
+if DEBUG:
+    CORS_ORIGIN_ALLOW_ALL = True
 
 
 REST_FRAMEWORK = {

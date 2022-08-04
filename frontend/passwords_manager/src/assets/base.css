@@ -1,19 +1,30 @@
 :root {
-  --bgcolor1: #212121;
+  --bgcolor1: #121212;
   --bgcolor2: var(--bgcolor1);
-  --bodytext: #ededed;
-  --buttonbg: #03dac6;
-  --buttontext: #212121;
-  --bottom-nav-bg: #252525;
-  --bottom-nav-color: #ededed;
+  --bodytext: rgba(255, 255, 255, 0.87);
+  --buttonbg: #ef9a9a;
+  --buttontext: #fff;
+  --bottom-nav-bg: #212121;
+  --bottom-nav-color: var(--bodytext);
   --bottom-nav-hover-color: var(--buttonbg);
   --entry-bg: var(--bottom-nav-bg);
 }
 
 @font-face {
+  font-family: "Hey August";
+  src: url("fonts/Hey_August/Hey August.otf");
+}
+
+@font-face {
+  font-family: "CeraPro";
+  src: url("fonts/CeraPro/CeraProMedium.woff2");
+}
+
+/*@font-face {
   font-family: "Averta";
   src: url("fonts/averta/AvertaDemoPECuttedDemo-Regular.otf");
 }
+*/
 
 @font-face {
   font-family: "password";
@@ -22,18 +33,39 @@
   src: url(https://jsbin-user-assets.s3.amazonaws.com/rafaelcastrocouto/password.ttf);
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: "CeraPro";
+  color: var(--buttonbg);
+}
+
+button, .cta {
+  border: transparent;
+  background: transparent;
+  border-color: transparent;
+  margin-bottom: 10px;
+  background: var(--buttonbg);
+  border-radius: 5px;
+  color: var(--buttontext);
+  padding: 10px 40px;
+  font-family: "CeraPro";
+}
+
+button, .cta {
+  text-decoration: none;
+}
+
 .secret {
   font-family: "password";
 }
 
 .secret::placeholder {
-  font-family: Averta;
+  font-family: "CeraPro";
 }
 
 body {
   background: linear-gradient(90deg, var(--bgcolor1), var(--bgcolor2));
   color: var(--bodytext);
-  font-family: "Averta", sans-serif;
+  font-family: "CeraPro", sans-serif;
   word-wrap: break-word;
 }
 
@@ -98,7 +130,7 @@ input[type="number"] {
   padding: 25px;
   border: 3px solid rgba(213, 221, 236, 0.4);
   margin-bottom: 10px;
-  color: #fff;
+  /*color: #fff;*/
   /*box-shadow: rgba(213, 221, 236, 0.4) 5px 5px 5px 5px;*/
 }
 
@@ -109,36 +141,8 @@ input[type="password"]:focus,
 input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="number"]:focus {
-  color: #fff;
+  /*color: #fff;*/
   /*box-shadow: rgba(213, 221, 236, 0.4) 5px 5px 5px 5px;*/
-}
-
-.cta {
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-  border-radius: 5px;
-  padding-right: 50px;
-  padding-left: 50px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  /*  margin-bottom: 60px;
-*/
-  cursor: pointer;
-}
-
-.cta1 {
-  border: solid 2px var(--buttonbg);
-  color: var(--buttontext);
-  background: var(--buttonbg);
-}
-
-.cta1:focus {
-  border: solid 2px var(--buttonbg);
-  background: transparent;
-  transition: 0.3s;
-  text-decoration: none;
-  color: var(--buttonbg);
 }
 
 .shortcut {
@@ -240,6 +244,7 @@ input[type="number"]:focus {
 
 .setting a i {
   font-size: 1.5rem;
+  color: var(--buttonbg);
 }
 
 .setting a:hover {

@@ -106,6 +106,7 @@ export default {
             @input="oninput"
             placeholder="master password"
             autofocus
+            autocomplete="off"
             id="masterpassword"
             class="textinput textInput form-control secret"
             type="text"

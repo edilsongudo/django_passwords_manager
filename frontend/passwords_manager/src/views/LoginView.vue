@@ -2,7 +2,7 @@
   <div class="container">
     <div class="fullwidth">
       <form v-on:submit.prevent="login">
-        <h1 class="">Please sign in</h1>
+        <h1 class="">Log In</h1>
         <p v-if="incorrectAuth">
           Incorrect username or password entered - please try again
         </p>
@@ -27,6 +27,11 @@
           />
         </div>
         <button type="submit" class="cta cta1">Login</button>
+        <div>
+          <router-link :to="{ name: 'register' }">
+            Need an account?
+          </router-link>
+        </div>
       </form>
     </div>
   </div>

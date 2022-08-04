@@ -20,9 +20,9 @@
           </a>
         </div>
         <div class="setting">
-          <a href="/accounts/email/" class="setting-content">
-            <i class="fal fa-user-circle"></i> Email Addresses
-          </a>
+          <router-link :to="{ name: 'email-change' }" class="setting-content"
+            ><i class="fal fa-user-circle"></i> Change Email</router-link
+          >
         </div>
         <div class="settings">
           <div class="setting">
