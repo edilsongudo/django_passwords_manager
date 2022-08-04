@@ -214,11 +214,15 @@ def generate_password(request):
 
 @api_view(['POST', 'GET'])
 def user_email_change(request):
-    if request.method == "GET":
+    if request.method == 'GET':
         return Response({'email': request.user.email})
     user = request.user
     User = get_user_model()
-    if User.objects.exclude(pk=user.pk).filter(email=request.data['email']).exists():
+    if (
+        User.objects.exclude(pk=user.pk)
+        .filter(email=request.data['email'])
+        .exists()
+    ):
         return Response(
             {'message': 'This email is already vinculated to another user'},
             status=status.HTTP_400_BAD_REQUEST,
@@ -226,3 +230,10 @@ def user_email_change(request):
     user.email = request.data['email']
     user.save()
     return Response({'email': request.user.email})
+
+
+@api_view(['POST'])
+def check_password(request):
+    password = request.data['password']
+    authenticated = request.user.check_password(password)
+    return Response({'authenticated': authenticated})

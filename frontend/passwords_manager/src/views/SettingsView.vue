@@ -7,7 +7,8 @@
       <div class="settings">
         <div class="setting">
           <router-link :to="{ name: 'master-edit' }" class="setting-content"
-            ><i class="fal fa-key"></i> Change vault master password</router-link
+            ><i class="fal fa-key"></i> Change vault master
+            password</router-link
           >
         </div>
 

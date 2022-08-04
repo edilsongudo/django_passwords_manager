@@ -13,7 +13,7 @@ export default {
   <div v-if="isloggedIn" class="bottom-nav">
     <div id="home" class="">
       <router-link :to="{ name: 'home' }"
-        ><i class="fal fa-home"></i
+        ><i class="fal fa-door-closed"></i
       ></router-link>
     </div>
     <div id="passwordGenerator" class="">

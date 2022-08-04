@@ -8,7 +8,7 @@ import MasterKeyEditView from "../views/MasterKeyEditView.vue";
 import PasswordGeneratorView from "../views/PasswordGeneratorView.vue";
 import InfoView from "../views/InfoView.vue";
 import SettingsView from "../views/SettingsView.vue";
-import UserEmailChange from "../views/UserEmailChange.vue"
+import UserEmailChange from "../views/UserEmailChange.vue";
 
 import store from "../store";
 import { check_user_master_key_status } from "../helpers/";
@@ -20,7 +20,7 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
-      meta: { requiresLogin: true, requiresMasterKey: true },
+      meta: { requiresLogin: true },
     },
     {
       path: "/master-key/new/",
@@ -76,7 +76,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresMasterKey)) {
+  if (to.matched.some((record) => record.meta.requiresLogin)) {
     check_user_master_key_status();
   }
   if (to.matched.some((record) => record.meta.requiresLogin)) {
@@ -91,40 +91,38 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach((to, from) => {
-    const name = to.name
+  const name = to.name;
 
-    try {
-      const homeNav = document.querySelector('#home')
-      const passwordGeneratorNav = document.querySelector('#passwordGenerator')
-      const infoNav = document.querySelector('#info')
-      const settingsNav = document.querySelector('#settings')
+  try {
+    const homeNav = document.querySelector("#home");
+    const passwordGeneratorNav = document.querySelector("#passwordGenerator");
+    const infoNav = document.querySelector("#info");
+    const settingsNav = document.querySelector("#settings");
 
-      // handle Nav Element Active Colors
-      if (name == "home") {
-          homeNav.classList.add('bottom-nav-active')
-
-      } else {
-          homeNav.classList.remove('bottom-nav-active')
-      }
-      if (name == "password-generator") {
-          passwordGeneratorNav.classList.add('bottom-nav-active')
-      } else {
-          passwordGeneratorNav.classList.remove('bottom-nav-active')
-      }
-      if (name == "info") {
-          infoNav.classList.add('bottom-nav-active')
-      } else {
-          infoNav.classList.remove('bottom-nav-active')
-      }
-      if (name == "settings") {
-          settingsNav.classList.add('bottom-nav-active')
-      } else {
-          settingsNav.classList.remove('bottom-nav-active')
-      }      
-    } catch (err) {
-      console.log(err)
+    // handle Nav Element Active Colors
+    if (name == "home") {
+      homeNav.classList.add("bottom-nav-active");
+    } else {
+      homeNav.classList.remove("bottom-nav-active");
     }
-
-})
+    if (name == "password-generator") {
+      passwordGeneratorNav.classList.add("bottom-nav-active");
+    } else {
+      passwordGeneratorNav.classList.remove("bottom-nav-active");
+    }
+    if (name == "info") {
+      infoNav.classList.add("bottom-nav-active");
+    } else {
+      infoNav.classList.remove("bottom-nav-active");
+    }
+    if (name == "settings") {
+      settingsNav.classList.add("bottom-nav-active");
+    } else {
+      settingsNav.classList.remove("bottom-nav-active");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 export default router;

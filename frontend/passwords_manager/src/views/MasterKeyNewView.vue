@@ -3,9 +3,10 @@
     <div class="fullwidth">
       <div method="POST">
         <h3>Define master</h3>
-        <div class="alert alert-info">
-          If your forget your master password you will never again be able to
-          decrypt your encrypted passwords.
+        <div class="alert-danger">
+          <i class="fal fa-exclamation-triangle"></i> Memorize your key: If you
+          forget your master password you will not be able to unlock your vault
+          and see your encrypted data
         </div>
         <div class="form-group">
           <input

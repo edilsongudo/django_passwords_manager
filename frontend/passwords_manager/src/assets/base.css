@@ -2,8 +2,8 @@
   --bgcolor1: #121212;
   --bgcolor2: var(--bgcolor1);
   --bodytext: rgba(255, 255, 255, 0.87);
-  --buttonbg: #ef9a9a;
-  --buttontext: #fff;
+  --buttonbg: #03dac6;
+  --buttontext: #121212;
   --bottom-nav-bg: #212121;
   --bottom-nav-color: var(--bodytext);
   --bottom-nav-hover-color: var(--buttonbg);
@@ -33,12 +33,18 @@
   src: url(https://jsbin-user-assets.s3.amazonaws.com/rafaelcastrocouto/password.ttf);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: "CeraPro";
   color: var(--buttonbg);
 }
 
-button, .cta {
+button,
+.cta {
   border: transparent;
   background: transparent;
   border-color: transparent;
@@ -50,7 +56,8 @@ button, .cta {
   font-family: "CeraPro";
 }
 
-button, .cta {
+button,
+.cta {
   text-decoration: none;
 }
 
@@ -60,6 +67,14 @@ button, .cta {
 
 .secret::placeholder {
   font-family: "CeraPro";
+}
+
+.alert-danger {
+  background: #f8d7da;
+  color: #721c24;
+  margin: 20px auto;
+  padding: 12px;
+  border-radius: 5px;
 }
 
 body {

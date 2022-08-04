@@ -31,15 +31,15 @@ export default {
 };
 </script>
 
-
 <template>
   <div class="container">
     <div class="fullwidth">
       <div method="POST">
         <h3>Edit master password</h3>
-        <div class="alert alert-info">
-          If your forget your master password you will never again be able to
-          decrypt your encrypted passwords.
+        <div class="alert-danger">
+          <i class="fal fa-exclamation-triangle"></i> Procceed with caution: If
+          you forget your master password you will not be able to unlock your
+          vault and see your encrypted data
         </div>
         <div class="form-group">
           <input
