@@ -16,9 +16,9 @@
           <h4>Account</h4>
         </div>
         <div class="setting">
-          <a href="/accounts/password/reset/" class="setting-content">
-            <i class="fal fa-mobile"></i> Password Reset
-          </a>
+          <router-link :to="{ name: 'password-change' }" class="setting-content"
+            ><i class="fal fa-mobile"></i> Change Password</router-link
+          >
         </div>
         <div class="setting">
           <router-link :to="{ name: 'email-change' }" class="setting-content"
