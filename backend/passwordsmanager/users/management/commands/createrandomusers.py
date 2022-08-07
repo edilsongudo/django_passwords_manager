@@ -1,13 +1,14 @@
-from django.core.management.base import BaseCommand
-from django.contrib.auth import get_user_model
 import random
+
+from django.contrib.auth import get_user_model
+from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = '''
+    help = """
     This command creates random users and saves them in a file
     Args: <amount>
-    '''
+    """
 
     def add_arguments(self, parser):
         parser.add_argument('amount')
@@ -22,7 +23,8 @@ class Command(BaseCommand):
 
         User = get_user_model()
         User.objects.create_user(
-            username=username, email=email, password=password)
+            username=username, email=email, password=password
+        )
 
         with open('generatedusers.txt', 'a') as f:
             f.write(f'{username},{email},{password}')

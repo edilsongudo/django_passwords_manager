@@ -10,6 +10,8 @@ import InfoView from "../views/InfoView.vue";
 import SettingsView from "../views/SettingsView.vue";
 import UserEmailChangeView from "../views/UserEmailChangeView.vue";
 import UserPasswordChangeView from "../views/UserPasswordChangeView.vue";
+import UserForgotPasswordView from "../views/UserForgotPasswordView.vue";
+import UserPasswordResetView from "../views/UserPasswordResetView.vue";
 
 import store from "../store";
 import { check_user_master_key_status } from "../helpers/";
@@ -45,7 +47,7 @@ const router = createRouter({
       path: "/info/",
       name: "info",
       component: InfoView,
-      meta: { requiresLogin: true,category: "info" },
+      meta: { requiresLogin: true, category: "info" },
     },
     {
       path: "/settings/",
@@ -64,6 +66,16 @@ const router = createRouter({
       name: "password-change",
       component: UserPasswordChangeView,
       meta: { requiresLogin: true, category: "settings" },
+    },
+    {
+      path: "/user/forgot_password/",
+      name: "password-forgot",
+      component: UserForgotPasswordView,
+    },
+    {
+      path: "/user/password/reset/confirm/:uid/:token/",
+      name: "password-reset",
+      component: UserPasswordResetView,
     },
     {
       path: "/login/",

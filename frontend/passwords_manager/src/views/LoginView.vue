@@ -31,6 +31,10 @@
           <router-link :to="{ name: 'register' }">
             Need an account?
           </router-link>
+          <br />
+          <router-link :to="{ name: 'password-forgot' }">
+            Forgot Password?
+          </router-link>
         </div>
       </form>
     </div>

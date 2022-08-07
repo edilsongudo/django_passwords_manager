@@ -1,15 +1,17 @@
-from django.shortcuts import render, redirect
-from django.http import FileResponse, JsonResponse
+import json
+import secrets
+
+from cryptography.fernet import InvalidToken
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.http import FileResponse, JsonResponse
 from django.middleware.csrf import get_token
+from django.shortcuts import redirect, render
+
 from .forms import *
 from .models import *
 from .utils import *
-from cryptography.fernet import InvalidToken
-import json
-import secrets
 
 
 # @login_required

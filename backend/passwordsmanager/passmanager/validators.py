@@ -1,15 +1,16 @@
-from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import (
-    UserAttributeSimilarityValidator,
-    NumericPasswordValidator,
     CommonPasswordValidator,
     MinimumLengthValidator,
+    NumericPasswordValidator,
+    UserAttributeSimilarityValidator,
 )
+from django.core.exceptions import ValidationError
+
 from .custom_validators import (
     HasLowerCaseValidator,
-    HasUpperCaseValidator,
     HasNumberValidator,
     HasSymbolValidator,
+    HasUpperCaseValidator,
 )
 
 

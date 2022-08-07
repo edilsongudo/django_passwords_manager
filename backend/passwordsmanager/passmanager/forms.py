@@ -1,16 +1,17 @@
 from django import forms
-from django.forms.widgets import TextInput, PasswordInput
 from django.core.exceptions import ValidationError
+from django.forms.widgets import PasswordInput, TextInput
+
 from .models import *
 from .validators import (
-    validate_minimum_length,
-    validate_not_numeric,
-    validate_not_common_password,
-    similariy_validator,
     has_lower_case,
-    has_upper_case,
     has_number,
     has_symbol,
+    has_upper_case,
+    similariy_validator,
+    validate_minimum_length,
+    validate_not_common_password,
+    validate_not_numeric,
 )
 
 

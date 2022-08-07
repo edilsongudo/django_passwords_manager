@@ -1,12 +1,12 @@
-from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
+from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = '''
+    help = """
     This commands create users
     <name> <password> <email>
-    '''
+    """
 
     def add_arguments(self, parser):
         parser.add_argument('username')
@@ -16,5 +16,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         User = get_user_model()
         User.objects.create_user(
-            username=options['username'], email=options['email'], password=options['password'])
+            username=options['username'],
+            email=options['email'],
+            password=options['password'],
+        )
         self.stdout.write('Member added')

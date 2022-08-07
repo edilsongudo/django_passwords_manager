@@ -1,9 +1,10 @@
 import base64
 import os
-from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
-from cryptography.fernet import Fernet
 import secrets
 import string
+
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
 
 
 def generate_key(password_provided, salt):

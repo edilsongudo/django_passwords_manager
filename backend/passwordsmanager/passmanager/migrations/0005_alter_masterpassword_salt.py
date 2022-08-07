@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='masterpassword',
             name='salt',
-            field=models.BinaryField(default=b'\x05\x14\xb89D\xa5\xf0\x86\x91\x16\xcc\x8c\xfd\xfb\xf8#X\xcd\xae\xca\x10\x90\xd5"\x0b\xb5\r\xa3\xa0\xa5g\x05'),
+            field=models.BinaryField(
+                default=b'\x05\x14\xb89D\xa5\xf0\x86\x91\x16\xcc\x8c\xfd\xfb\xf8#X\xcd\xae\xca\x10\x90\xd5"\x0b\xb5\r\xa3\xa0\xa5g\x05'
+            ),
         ),
     ]
