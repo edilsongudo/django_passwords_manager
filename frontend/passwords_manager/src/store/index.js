@@ -34,7 +34,7 @@ const store = createStore({
       return new Promise((resolve, reject) => {
         axiosInstance
           .post("auth/jwt/create/", {
-            username: usercredentials.username,
+            email: usercredentials.email,
             password: usercredentials.password,
           })
           .then((response) => {

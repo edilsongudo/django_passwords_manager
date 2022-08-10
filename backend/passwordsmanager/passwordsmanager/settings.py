@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'passmanager.apps.PassmanagerConfig',
     'django.contrib.sites',
+    'accounts.apps.AccountsConfig',
+    'api.apps.ApiConfig',
     'crispy_forms',
     'corsheaders',
     'rest_framework',
@@ -146,7 +148,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = 'accounts.User'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

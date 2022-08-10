@@ -4,6 +4,7 @@ export default {
   data() {
     return {
       email: "",
+      sent: false
     };
   },
   methods: {
@@ -12,7 +13,7 @@ export default {
         .post("/auth/users/reset_password/", {
           email: this.email,
         })
-        .then((response) => {})
+        .then((response) => {this.sent = true})
         .catch((err) => {
           if (err.response) {
             swal(err.response.data.email[0]);
@@ -26,9 +27,10 @@ export default {
 <template>
   <div class="container">
     <div class="fullwidth">
-      <div method="POST">
+      <div v-if="!sent" method="POST">
         <div>
           <h3>Reset Password</h3>
+          <div>After filling in the email you used to create your account, we'll send you an email with a link. Via this link you'll be able to reset your password.</div>
           <div class="form-group">
             <input
               autofocus
@@ -46,6 +48,10 @@ export default {
             Send reset link
           </button>
         </div>
+      </div>
+      <div v-else>
+        <h3>Check your email inbox</h3>
+        <p>An email with a link that allows you to reset your password was sent to your inbox</p>
       </div>
     </div>
   </div>

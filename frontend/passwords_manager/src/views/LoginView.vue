@@ -4,16 +4,16 @@
       <form v-on:submit.prevent="login">
         <h1 class="">Log In</h1>
         <p v-if="incorrectAuth">
-          Incorrect username or password entered - please try again
+          Incorrect email or password entered - please try again
         </p>
         <div class="form-group">
           <input
-            type="text"
-            name="username"
+            type="email"
+            name="email"
             id="user"
-            v-model="username"
+            v-model="email"
             class="textinput textInput form-control"
-            placeholder="Username"
+            placeholder="email"
           />
         </div>
         <div class="form-group">
@@ -46,7 +46,7 @@ export default {
   name: "login",
   data() {
     return {
-      username: "",
+      email: "",
       password: "",
       incorrectAuth: false,
     };
@@ -55,7 +55,7 @@ export default {
     login() {
       this.$store
         .dispatch("userLogin", {
-          username: this.username,
+          email: this.email,
           password: this.password,
         })
         .then(() => {

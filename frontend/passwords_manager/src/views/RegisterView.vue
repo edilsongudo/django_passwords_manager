@@ -5,12 +5,12 @@
         <h1 class="">Register</h1>
         <div class="form-group">
           <input
-            type="text"
-            name="username"
+            type="email"
+            name="email"
             id="user"
-            v-model="username"
+            v-model="email"
             class="textinput textInput form-control"
-            placeholder="Username"
+            placeholder="email"
           />
         </div>
         <div class="form-group">
@@ -39,7 +39,7 @@ export default {
   name: "register",
   data() {
     return {
-      username: "",
+      email: "",
       password: "",
     };
   },
@@ -47,7 +47,7 @@ export default {
     register() {
       this.$axios
         .post("auth/users/", {
-          username: this.username,
+          email: this.email,
           password: this.password,
         })
         .then(() => {
